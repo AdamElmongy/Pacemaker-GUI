@@ -1,4 +1,5 @@
 from tkinter import *
+import json
 
 # create root window
 root = Tk()
@@ -12,6 +13,33 @@ height= root.winfo_screenheight()
 root.geometry("%dx%d" % (width, height))
 # root.configure(background='black')
  
+def save(variable, value):
+    variable = value
+
+with open('users.json') as file:
+    users = json.load(file)
+    print(users)
+
+
+def login(ID, password):
+    for user in users:
+        if ID == user[0] and password == user[1]:
+            return True
+    
+    return False
+
+def register(ID, password):    
+    if len(users) == 10:
+        return "No more users can be registered"
+    else:
+        for user in users:
+            if user[0] == ID:
+                return "This user already exists"
+    
+        users.append([ID, password])
+        with open('users.json', 'w') as file:
+            json.dump(users, file)
+    return True
 
 
 welcome_label = Label(root, text = "Welcome to the Pacemaker", font=("Arial", 25))
