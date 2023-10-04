@@ -26,4 +26,3 @@ welcome_label.place(relx=.5, rely=.5, anchor="center")
 # Execute Tkinter
 root.mainloop()
 
-#Razan made an edit!
