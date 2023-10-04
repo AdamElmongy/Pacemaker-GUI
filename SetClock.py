@@ -5,10 +5,18 @@ SetClock = tkinter.Tk()
 SetClock .geometry("500x500")
 SetClock.title("SetClock")
 
-date = datetime.datetime.now()
-date_str = date.strftime("%m/%d/%Y, %H:%M")
-
-date_lbl = tkinter.Label(SetClock, text=date_str)
+date_lbl = tkinter.Label(SetClock, text="hit update")
 date_lbl.pack(padx=20, pady=20)
+def getdate():
+    date = datetime.datetime.now()
+    date_str = date.strftime("%m/%d/%Y, %H:%M:%S")
+    displaylabel(date_str)
+def displaylabel(string):
+    date_lbl.configure(text=string)
+    print("button was clicked and date is:"+ string)
+
+
+updatetimeBtn = tkinter.Button(SetClock, text="Update Date and Time", command=getdate)
+updatetimeBtn.pack(padx=10, pady=10)
 
 SetClock.mainloop()
