@@ -4,20 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="42b6dec3-623d-49ad-8673-fa877f42815f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/AAIparameters.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AOO.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AOOparameters.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Modes.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MultipleModes.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/VOOparameters.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/VVIparameters.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/parameters.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MainMenu.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainMenu.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SetClock.py" beforeDir="false" afterPath="$PROJECT_DIR$/SetClock.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/functions.py" afterDir="false" />
-    </list>
+    <list default="true" id="42b6dec3-623d-49ad-8673-fa877f42815f" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
