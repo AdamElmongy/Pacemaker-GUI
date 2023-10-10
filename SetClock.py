@@ -13,7 +13,6 @@ def getdate():
     displaylabel(date_str)
 def displaylabel(string):
     date_lbl.configure(text=string)
-    print("button was clicked and date is:"+ string)
 
 
 updatetimeBtn = tkinter.Button(SetClock, text="Update Date and Time", command=getdate)
