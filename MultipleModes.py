@@ -1,18 +1,18 @@
 import tkinter
 import functions
+from tkinter import messagebox
 
 
-def updatepar(mode, data, entryList, error_lbl, num_par):
-    error_lbl.config(text="")  # error message starts blank
+def updatepar(mode, data, entryList, num_par):
     for e in range(num_par):
         try:
             float(entryList[e].get())  # did the user enter a float?
         except:  # did not enter a number as digits
-            error_lbl.config(text="Invalid entry for " + data[e][0] + ". Enter as number!")
+            messagebox.showerror("Error", "Invalid entry for " + data[e][0] + ". Enter as number!")
         if data[e][1][0] <= float(entryList[e].get()) <= data[e][1][1]:  # check if valid parameter value
             data[e][1][3] = float(entryList[e].get())  # store in file
         else:
-            error_lbl.config(text="Entry is out of range for " + data[e][0] + ".")
+            messagebox.showerror("Error", "Entry is out of range for " + data[e][0] + ".")
 
     functions.writeToFile(mode + "parameters", data)
     print(data)
@@ -53,12 +53,10 @@ def modePage(mode, page):
         par_range = tkinter.Label(page, text="Value range is " + value_range)
         par_range.grid(row=i, column=2)
 
-    error_lbl = tkinter.Label(page, text="")
     updateBtn = tkinter.Button(page, text="Update",
                                command=lambda:
-                               updatepar(mode, data, entry_list, error_lbl, num_par[index]))
+                               updatepar(mode, data, entry_list, num_par[index]))
     updateBtn.grid(row=num_par[index] + 1, columnspan=2)
-    error_lbl.grid(row=num_par[index] + 2, columnspan=2)
 
 
 # uncomment this to test this file alone (without Modes.py)

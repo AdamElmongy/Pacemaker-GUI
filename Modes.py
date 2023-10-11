@@ -30,5 +30,5 @@ def Modes():
 
     modes.mainloop()
 
-
+Modes()
 navigator.register_page("Modes", Modes)

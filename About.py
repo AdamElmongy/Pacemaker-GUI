@@ -18,7 +18,7 @@ def About():
     mode_lbl = tk.Label(about, text = f"MODE: {data['Mode']}")
     mode_lbl.pack(padx=20, pady=20)
 
-    model_number_lbl = tk.Label(about, text = f"Institution: {data['ModelNumber']}")
+    model_number_lbl = tk.Label(about, text = f"Model Number: {data['ModelNumber']}")
     model_number_lbl.pack(padx=20, pady=20)
 
     DCM_lbl = tk.Label(about, text = f"DCM ID: {data['DCMNumber']}")
