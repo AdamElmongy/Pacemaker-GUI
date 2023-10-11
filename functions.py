@@ -12,26 +12,6 @@ def writeToFile(file, data):
         json.dump(data, file)
     return True
 
-def login(ID, password):
-    users = openFile('users')
-    for user in users:
-        if ID == user[0] and password == user[1]:
-            return True
-    return False
-
-def register(ID, password):  
-    users = openFile('users')  
-    if len(users) == 10:
-        return "No more users can be registered"
-    else:
-        for user in users:
-            if user[0] == ID:
-                return "This user already exists"
-    
-        users.append([ID, password])
-        with open('users.json', 'w') as file:
-            json.dump(users, file)
-    return True
 
 def NewPatient(model_number, dcm_number, institution):
     device_details = openFile("global")
@@ -42,6 +22,8 @@ def NewPatient(model_number, dcm_number, institution):
 
     return writeToFile("global", device_details)
 
+def save(variable, value):
+    variable = value
 
 
 # # TEST CASES
