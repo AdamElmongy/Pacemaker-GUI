@@ -10,6 +10,7 @@ class Navigator:
         if page_name in self.page_functions:
             if self.current_page:
                 self.current_page.destroy()
+                print("page was destroyed")
             self.current_page = self.page_functions[page_name]()
 
 

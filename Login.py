@@ -34,6 +34,15 @@ def signin():
             writeToFile('users', users)  # Assuming writeToFile function writes the data to a file
             show_main_menu()  # Switch to the main menu page
 
+    # Function for switching to the Main Menu page
+    def show_main_menu():
+        # Hide the login and register tabs
+        notebook.pack_forget()
+        # Show the main menu frame
+        main_menu_frame.pack(fill='both', expand=True)
+        # Call the main_menu function to populate the frame
+        main_menu(signin)
+
     signin = tk.Tk()
     signin.title("Login/Register Form")
     signin.geometry("500x500")
@@ -53,15 +62,7 @@ def signin():
     # Frame for Main Menu
     main_menu_frame = ttk.Frame(signin)
 
-    # Function for switching to the Main Menu page
-    def show_main_menu():
-        # Hide the login and register tabs
-        notebook.pack_forget()
-        # Show the main menu frame
-        main_menu_frame.pack(fill='both', expand=True)
-        # Call the main_menu function to populate the frame
-        main_menu(signin)
-
+    # Login Tab
     login_username_label = tk.Label(login_frame, text="Username:")
     login_username_label.pack()
     login_username_entry = tk.Entry(login_frame)
@@ -94,5 +95,5 @@ def signin():
 
 if __name__ == "__main__":
     signin()
-# Login Tab
+
 

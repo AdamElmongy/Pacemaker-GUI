@@ -34,6 +34,7 @@ def About():
 
     about.mainloop()
 
+
 navigator.register_page("About", About)
 
 if __name__ == "__main__":

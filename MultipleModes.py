@@ -3,14 +3,14 @@ import functions
 
 
 def updatepar(mode, data, entryList, error_lbl, num_par):
-    error_lbl.config(text="")
+    error_lbl.config(text="")  # error message starts blank
     for e in range(num_par):
         try:
-            float(entryList[e].get())
-        except ValueError:  # did not enter a number
+            float(entryList[e].get())  # did the user enter a float?
+        except:  # did not enter a number as digits
             error_lbl.config(text="Invalid entry for " + data[e][0] + ". Enter as number!")
-        if data[e][1][0] <= float(entryList[e].get()) <= data[e][1][1]:
-            data[e][1][3] = float(entryList[e].get())
+        if data[e][1][0] <= float(entryList[e].get()) <= data[e][1][1]:  # check if valid parameter value
+            data[e][1][3] = float(entryList[e].get())  # store in file
         else:
             error_lbl.config(text="Entry is out of range for " + data[e][0] + ".")
 
@@ -19,9 +19,10 @@ def updatepar(mode, data, entryList, error_lbl, num_par):
 
 
 def modePage(mode, page):
-    page.title(mode + " Mode")
     data = functions.openFile(mode + "parameters")
+    # data looks like: ["parameter", [min, max, default, set by user, "units"]]
 
+    # Determine which mode was passed and assign to index to identify mode as a number
     index = 0
     modes = ["AOO", "VOO", "AAI", "VVI"]
     for m in range(len(modes)):
@@ -29,8 +30,10 @@ def modePage(mode, page):
             index = m
             break
 
+    # number of parameters for each mode (order corresponds to "modes" list)
     num_par = [4, 4, 5, 5]  # [AOO, VOO, AAI, VVI]
 
+    # placeholders for parameters, matches the max # in num_par
     p1 = tkinter.Entry(page)
     p2 = tkinter.Entry(page)
     p3 = tkinter.Entry(page)
@@ -39,7 +42,7 @@ def modePage(mode, page):
 
     entry_list = [p1, p2, p3, p4, p5]
 
-    for i in range(num_par[index]):
+    for i in range(num_par[index]):  # for every parameter for the mode
         par_lbl = tkinter.Label(page, text="Parameter: " + data[i][0])
         par_lbl.grid(row=i, column=0)
 
@@ -58,7 +61,8 @@ def modePage(mode, page):
     error_lbl.grid(row=num_par[index] + 2, columnspan=2)
 
 
-state = tkinter.Tk()
-state.geometry("500x500")
-modePage("VVI", state)
-state.mainloop()
+# uncomment this to test this file alone (without Modes.py)
+# state = tkinter.Tk()
+# state.geometry("500x500")
+# #modePage("VVI", state)
+# state.mainloop()

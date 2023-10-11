@@ -1,5 +1,7 @@
 import tkinter as tk
 from About import About
+from Navigation import navigator
+
 
 def main_menu(root):
     # root = tk.Tk()
@@ -7,21 +9,21 @@ def main_menu(root):
     def switch_to_about():
         root.destroy()
         About()
+
     root.title("Main Menu")
     menu = tk.Frame(root)
     menu.pack(fill='both', expand=True)
 
+    aboutBtn = tk.Button(menu, text = "About", command=lambda: navigator.navigate_to_page("About"))  # command would be to open About page
 
-    aboutBtn = tk.Button(menu, text = "About")  # command would be to open About page
-
-    aboutBtn = tk.Button(menu, text="About", command=switch_to_about)  # command would be to open the next window
+    # aboutBtn = tk.Button(menu, text="About", command=switch_to_about)  # command would be to open the next window
 
     aboutBtn.pack(padx=10, pady=10)
 
-    setclockBtn = tk.Button(menu, text = "Set Clock")  # command would be to open SetClock page
+    setclockBtn = tk.Button(menu, text = "Set Clock", command=lambda: navigator.navigate_to_page("SetClock"))  # command would be to open SetClock page
     setclockBtn.pack(padx=10, pady=10)
 
-    newpatientBtn = tk.Button(menu, text = "New Patient")  # command would be to open New Patient
+    newpatientBtn = tk.Button(menu, text = "New Patient", command=lambda: navigator.navigate_to_page("NewPatient"))  # command would be to open New Patient
     newpatientBtn.pack(padx=10, pady=10)
 
     modeBtn = tk.Button(menu, text = "Modes")  # command would be to open the Mode page
