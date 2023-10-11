@@ -21,6 +21,7 @@ def signin():
         ID = register_username_entry.get()
         password = register_password_entry.get()
         users = openFile('users')
+        print(users)
         if len(users) >= 10:
             messagebox.showerror("Error", "No more users can be registered")
             return
@@ -32,8 +33,7 @@ def signin():
             users.append([ID, password])
             writeToFile('users', users)  # Assuming writeToFile function writes the data to a file
             show_main_menu()  # Switch to the main menu page
-            
-    # Create the main window
+
     signin = tk.Tk()
     signin.title("Login/Register Form")
     signin.geometry("500x500")
