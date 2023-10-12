@@ -6,11 +6,6 @@ from Navigation import navigator
 data = openFile("global")
 
 def About():
-
-    def switch_to_new_patient():
-        about.destroy()
-        NewPatient()
-
     about = tk.Tk()
     about .geometry("500x500")
     about.title("About")
@@ -29,7 +24,7 @@ def About():
 
     new_patient_label = tk.Label(about, text="Enter a New Patient:")
     new_patient_label.pack()
-    new_patient_button = tk.Button(about, text="New Patient", command=lambda: navigator.navigate_to_page("NewPatient"))
+    new_patient_button = tk.Button(about, text="New Patient", command=lambda: navigator.navigate_to_signin("Register"))
     new_patient_button.pack()
 
     about.mainloop()

@@ -13,5 +13,11 @@ class Navigator:
                 print("page was destroyed")
             self.current_page = self.page_functions[page_name]()
 
+    def navigate_to_signin(self, tab):
+        if self.current_page:
+            self.current_page.destroy()
+            print("page was destroyed")
+        self.current_page = self.page_functions["SignIn"](tab)
+
 
 navigator = Navigator()

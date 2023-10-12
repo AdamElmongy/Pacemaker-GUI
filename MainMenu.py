@@ -1,6 +1,7 @@
 import tkinter as tk
 from About import About
 from Navigation import navigator
+from Modes import Modes
 
 
 def main_menu(root):
@@ -23,10 +24,10 @@ def main_menu(root):
     setclockBtn = tk.Button(menu, text = "Set Clock", command=lambda: navigator.navigate_to_page("SetClock"))  # command would be to open SetClock page
     setclockBtn.pack(padx=10, pady=10)
 
-    newpatientBtn = tk.Button(menu, text = "New Patient", command=lambda: navigator.navigate_to_page("NewPatient"))  # command would be to open New Patient
+    newpatientBtn = tk.Button(menu, text = "New Patient", command=lambda: navigator.navigate_to_signin("Register"))  # command would be to open New Patient
     newpatientBtn.pack(padx=10, pady=10)
 
-    modeBtn = tk.Button(menu, text = "Modes")  # command would be to open the Mode page
+    modeBtn = tk.Button(menu, text = "Modes", command=Modes)  # command would be to open the Mode page
     modeBtn.pack(padx=10, pady=10)
 
 

@@ -23,8 +23,6 @@ def NewPatient():
         print(writeToFile('global', data))
 
     newPatient = tk.Tk()
-    newPatient.title("New Patient Form")
-    newPatient.geometry("500x500")
 
     # Frame for Main Menu
     new_patient_frame = tk.Frame(newPatient)
@@ -45,8 +43,8 @@ def NewPatient():
     institution_entry = tk.Entry(new_patient_frame)
     institution_entry.pack()
 
-    # back_button = tk.Button(new_patient_frame, text="Back", command=lambda: navigator.navigate_to_page("About"))
-    # back_button.pack()
+    back_button = tk.Button(new_patient_frame, text="Back", command=lambda: navigator.navigate_to_page("Main"))
+    back_button.pack()
 
     save_button = tk.Button(new_patient_frame, text="Save", command=save)
     save_button.pack()

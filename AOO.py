@@ -10,7 +10,8 @@ AOO.title("AOO Mode")
 # Lower rate limit, Upper rate limit, Atrial Amplitude, Atrial Pulse Width
 
 
-data = functions.openFile("AOO"+"parameters")
+data = functions.openFile("ModeParameters")["AOO"]
+print(data)
 
 p1_entry = tkinter.Entry(AOO)
 p2_entry = tkinter.Entry(AOO)
@@ -26,7 +27,7 @@ def updatepar():
             float(entryList[e].get())
         except ValueError:  # did not enter a number
             error_lbl.config(text="Invalid entry for "+ data[e][0] + ". Enter as number!")
-        if data[e][1][0] <= float(entryList[e].get()) <= data[e][1][1]:
+        if data[e][1][0] <= float(entryList[e].get()) <= data[e][1]:
             data[e][1][3] = float(entryList[e].get())
         else:
             error_lbl.config(text="Entry is out of range for "+ data[e][0] + ".")
@@ -34,14 +35,15 @@ def updatepar():
     functions.writeToFile("AOO"+"parameters", data)
     print(data)
 
-for i in range(len(entryList)):
-    par_lbl = tkinter.Label(AOO, text="Parameter: " + data[i][0])
+for i, entry in enumerate(data):
+    print(entry)
+    par_lbl = tkinter.Label(AOO, text="Parameter: " + str(data[entry][0]))
     par_lbl.grid(row=i, column=0)
 
-    entryList[i].insert(0, data[i][1][3])
+    entryList[i].insert(0, data[entry][3])
     entryList[i].grid(row=i, column=1)
 
-    value_range = str(data[i][1][0]) + "-" + str(data[i][1][1]) + data[i][1][4]
+    value_range = str(data[entry][0]) + "-" + str(data[entry][1]) + data[entry][4]
     par_range = tkinter.Label(AOO, text="Value range is "+value_range)
     par_range.grid(row=i, column=2)
 

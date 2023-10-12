@@ -3,9 +3,10 @@ from tkinter import ttk
 from tkinter import messagebox
 from MainMenu import main_menu
 from functions import openFile, writeToFile
+from Navigation import navigator
 
 
-def signin():
+def signin(tab=None):
 
     def login():
         ID = login_username_entry.get()
@@ -32,6 +33,7 @@ def signin():
                     return
             users.append([ID, password])
             writeToFile('users', users)  # Assuming writeToFile function writes the data to a file
+            writeToFile(f'Users/{ID}', users)
             show_main_menu()  # Switch to the main menu page
 
     # Function for switching to the Main Menu page
@@ -91,7 +93,10 @@ def signin():
     register_button.pack()
 
     # Run the Tkinter main loop
+    notebook.select(register_frame) if tab == "Register" else notebook.select(login_frame)
     signin.mainloop()
+
+navigator.register_page("SignIn", signin)
 
 if __name__ == "__main__":
     signin()
