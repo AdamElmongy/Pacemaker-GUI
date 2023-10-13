@@ -17,7 +17,7 @@ def updatepar(mode, data, entryList):
             user_data['mode-values'][mode][entry] = float(entryList[i].get())
 
         else:
-            messagebox.showerror("Error", f"Entry is out of range for {data[entry][0]}.")
+            messagebox.showerror("Error", f"Entry is out of range for {entry}.")
 
     writeToFile(user_file_path, user_data)
     writeToFile(mode + "parameters", data)
@@ -25,13 +25,22 @@ def updatepar(mode, data, entryList):
 
 
 def modePage(mode, page):
+    # configure the frame to space out the columns
+    page.columnconfigure(0, weight=1)
+    page.columnconfigure(1, weight=1)
+    page.columnconfigure(2, weight=1)
+
+    # open the user's parameter file
+    data =openFile("ModeParameters")[mode]
+    # data looks like: ["parameter": [min, max, default, set by user, "units"]]
+
     data = openFile("ModeParameters")[mode]
     user = getCurrentUser()
     user_file_path = f"Users/{user}"
     user_mode_data = openFile(user_file_path)['mode-values'][mode]
     # data looks like: ["parameter", [min, max, default, set by user, "units"]]
 
-    # placeholders for parameters, matches the max # in num_par
+    # number of placeholders for parameters, matches the max # in num_par
     p1 = tkinter.Entry(page)
     p2 = tkinter.Entry(page)
     p3 = tkinter.Entry(page)
@@ -42,23 +51,25 @@ def modePage(mode, page):
 
     for i, entry in enumerate(data):  # for every parameter for the mode
         par_lbl = tkinter.Label(page, text=f"Parameter: {entry}")
-        par_lbl.grid(row=i, column=0)
+        par_lbl.grid(row=i, column=0, sticky="we", pady=2)
 
         entry_list[i].insert(0, user_mode_data[entry])
         entry_list[i].grid(row=i, column=1)
 
         value_range = str(data[entry][0]) + "-" + str(data[entry][1]) + data[entry][4]
         par_range = tkinter.Label(page, text="Value range is " + value_range)
-        par_range.grid(row=i, column=2)
+        par_range.grid(row=i, column=2, sticky="we", pady=2)
 
+
+    # Update File with the new parameter values
     updateBtn = tkinter.Button(page, text="Update",
                                command=lambda:
                                updatepar(mode, data, entry_list))
-    updateBtn.grid(row=len(data) + 1, columnspan=2)
+    updateBtn.grid(row=len(data) + 2, column=0, columnspan=3, pady=20, ipadx=100)
 
 
-# uncomment this to test this file alone (without Modes.py)
+# # uncomment this to test this file alone (without Modes.py)
 # state = tkinter.Tk()
 # state.geometry("500x500")
-# #modePage("VVI", state)
+# modePage("VVI", state)
 # state.mainloop()

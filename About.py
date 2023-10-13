@@ -7,31 +7,17 @@ data = openFile("global")
 
 def About():
     about = tk.Tk()
-    about .geometry("500x500")
+    about .geometry("250x250")
     about.title("About")
 
-    mode_lbl = tk.Label(about, text = f"MODE: {data['Mode']}")
-    mode_lbl.pack(padx=20, pady=20)
+    model_number_lbl = tk.Label(about, text=f"Model Number: H00140")  # {data['ModelNumber']}
+    model_number_lbl.pack(padx=20, pady=20, anchor='w')
 
-    model_number_lbl = tk.Label(about, text = f"Model Number: {data['ModelNumber']}")
-    model_number_lbl.pack(padx=20, pady=20)
+    DCM_lbl = tk.Label(about, text=f"DCM SN: 3K04-L04-GR4")  # {data['DCMNumber']}
+    DCM_lbl.pack(padx=20, pady=20, anchor='w')
 
-    DCM_lbl = tk.Label(about, text = f"DCM ID: {data['DCMNumber']}")
-    DCM_lbl.pack(padx=20, pady=20)
-
-    institution_lbl = tk.Label(about, text = f"Institution: {data['Institution']}")
-    institution_lbl.pack(padx=20, pady=20)
-
-    new_patient_label = tk.Label(about, text="Enter a New Patient:")
-    new_patient_label.pack()
-    new_patient_button = tk.Button(about, text="New Patient", command=lambda: navigator.navigate_to_signin("Register"))
-    new_patient_button.pack()
+    institution_lbl = tk.Label(about, text=f"Institution: McMaster University")  # {data['Institution']}
+    institution_lbl.pack(padx=20, pady=20, anchor='w')
 
     about.mainloop()
-
-
-navigator.register_page("About", About)
-
-if __name__ == "__main__":
-    About()
 

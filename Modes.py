@@ -4,12 +4,12 @@ import MultipleModes
 from Navigation import navigator
 
 
-def Modes():
-    modes = tkinter.Tk()
-    modes.geometry("500x500")
-    modes.title("Modes")
+def Modes(root):
+    # modes = tkinter.Tk()
+    # modes.geometry("500x500")
+    # modes.title("Modes")
 
-    notebook = ttk.Notebook(modes)
+    notebook = ttk.Notebook(root)  # root used to be modes
     notebook.pack(fill='both', expand=True)
 
     AOO_frame = tkinter.Frame(notebook)
@@ -28,7 +28,7 @@ def Modes():
     notebook.add(VVI_frame, text='VVI')
     MultipleModes.modePage("VVI", VVI_frame)
 
-    modes.mainloop()
+    #modes.mainloop()
 
 
 navigator.register_page("Modes", Modes)
