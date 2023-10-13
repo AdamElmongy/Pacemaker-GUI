@@ -4,15 +4,14 @@ from Navigation import navigator
 from Modes import Modes
 
 
-def main_menu(root):
+def main_menu():
     # root = tk.Tk()
 
-    def switch_to_about():
-        root.destroy()
-        About()
+    # def switch_to_about():
+    #     root.destroy()
+    #     About()
 
-    root.title("Main Menu")
-    menu = tk.Frame(root)
+    menu = tk.Frame(navigator.main_app)
     menu.pack(fill='both', expand=True)
 
     aboutBtn = tk.Button(menu, text = "About", command=lambda: navigator.navigate_to_page("About"))  # command would be to open About page

@@ -79,11 +79,11 @@ def signin(tab=None):
         # Show the main menu frame
         main_menu_frame.pack(fill='both', expand=True)
         # Call the main_menu function to populate the frame
-        main_menu(signin)
+        main_menu()
 
-    signin = tk.Tk()
-    signin.title("Login/Register Form")
-    signin.geometry("500x500")
+    signin = tk.Frame(navigator.main_app)
+    # signin.title("Login/Register Form")
+    # signin.geometry("500x500")
 
     # Create a Notebook (tabbed interface) for login and register
     notebook = ttk.Notebook(signin)
@@ -130,7 +130,7 @@ def signin(tab=None):
 
     # Run the Tkinter main loop
     notebook.select(register_frame) if tab == "Register" else notebook.select(login_frame)
-    signin.mainloop()
+    signin.pack(fill='both', expand=True)
 
 navigator.register_page("SignIn", signin)
 

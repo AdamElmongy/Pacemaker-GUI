@@ -4,12 +4,13 @@ from Navigation import navigator
 
 def Welcome():
     # Function to switch to the login/register page
-    def switch_to_login_page():
-        root.destroy()
-        signin()
+    # def switch_to_login_page():
+    #     welcome.pack_forget()
+    #     signin()
 
     # create root window
     root = Tk()
+    navigator.main_app = root
     welcome = Frame(root)
 
     # root window title and dimension
@@ -20,13 +21,15 @@ def Welcome():
     # setting tkinter window size
     root.geometry("%dx%d" % (width, height))
 
-    welcome_label = Label(root, text="Welcome to the Pacemaker", font=("Arial", 25))
+    welcome_label = Label(welcome, text="Welcome to the Pacemaker", font=("Arial", 25))
+    welcome_label.pack(expand=True)
     welcome_label.place(relx=.5, rely=.5, anchor="center")
 
     # After 5000 milliseconds (5 seconds), switch to the login/register page
-    root.after(500, switch_to_login_page)
+    welcome.after(1000, lambda: (welcome.pack_forget(), signin()))
 
     # Execute Tkinter
+    welcome.pack(fill='both', expand=True)
     root.mainloop()
 
 
