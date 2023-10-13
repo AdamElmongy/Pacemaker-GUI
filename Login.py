@@ -2,9 +2,38 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
 from MainMenu import main_menu
-from functions import openFile, writeToFile
+from functions import openFile, writeToFile, setCurrentUser
 from Navigation import navigator
 
+
+user_default_values = {
+    "AAI": {
+        "LRL": 60,
+        "URL": 120,
+        "AAmp": 3.5,
+        "APW": 0.4,
+        "ARP": 250
+    },
+    "AOO": {
+        "LRL": 60,
+        "URL": 120,
+        "AAmp": 3.5,
+        "APW": 0.4,
+    }, 
+    "VOO": {
+        "LRL": 60,
+        "URL": 120,
+        "VAmp": 3.5,
+        "VPW": 0.4,
+    },
+    "VVI": {
+        "LRL": 60,
+        "URL": 120,
+        "VAmp": 3.5,
+        "VPW": 0.4,
+        "VRP": 250
+    }
+}
 
 def signin(tab=None):
 
@@ -15,6 +44,7 @@ def signin(tab=None):
         for user in users:
             if ID == user[0] and password == user[1]:
                 # show_main_menu()  # Switch to the main menu page
+                setCurrentUser(ID)
                 switch_to_main_menu()
                 return
         messagebox.showerror("Error", "Invalid username or password")
@@ -33,10 +63,22 @@ def signin(tab=None):
                     messagebox.showerror("Error", "A user with this username already exists")
                     return
             users.append([ID, password])
+
+            user_file_data = {
+                "username": ID,
+                "mode-values": user_default_values
+            }
             writeToFile('users', users)  # Assuming writeToFile function writes the data to a file
+
             writeToFile(f'Users/{ID}', users)
             # show_main_menu()  # Switch to the main menu page
             switch_to_main_menu()
+
+            writeToFile(f'Users/{ID}', user_file_data)
+            setCurrentUser(ID)
+            switch_to_main_menu()
+            #show_main_menu()  # Switch to the main menu page
+
 
     # Function for switching to the Main Menu page
     # def show_main_menu():
