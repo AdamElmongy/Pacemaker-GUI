@@ -72,8 +72,8 @@ def modePage(mode, page):
     updateBtn.grid(row=len(data) + 2, column=0, columnspan=3, pady=20, ipadx=100)
 
 
-# uncomment this to test this file alone (without Modes.py)
-state = tkinter.Tk()
-state.geometry("500x500")
-modePage("VVI", state)
-state.mainloop()
+# # uncomment this to test this file alone (without Modes.py)
+# state = tkinter.Tk()
+# state.geometry("500x500")
+# modePage("VVI", state)
+# state.mainloop()
