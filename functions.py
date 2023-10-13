@@ -12,6 +12,14 @@ def writeToFile(file, data):
         json.dump(data, file)
     return True
 
+def getCurrentUser():
+    return openFile("global")['CurrentUser']
+
+def setCurrentUser(user):
+    data = openFile("global")
+    data['CurrentUser'] = user
+    return writeToFile("global", data)
+
 
 
 

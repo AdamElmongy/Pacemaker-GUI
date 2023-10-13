@@ -1,9 +1,13 @@
 import tkinter
-import functions
+from functions import writeToFile, openFile, getCurrentUser
 from tkinter import messagebox
 
+user = getCurrentUser()
+print(user)
+user_file_path = f"Users/{user}"
 
 def updatepar(mode, data, entryList):
+    user_data = openFile(user_file_path)
     for i, entry in enumerate(data):
         try:
             float(entryList[i].get())  # did the user enter a float?
@@ -11,15 +15,19 @@ def updatepar(mode, data, entryList):
             messagebox.showerror("Error", "Invalid entry for " + entry + ". Enter as number!")
         if data[entry][0] <= float(entryList[i].get()) <= data[entry][1]:  # check if valid parameter value
             data[entry][3] = float(entryList[i].get())  # store in file
+            user_data['mode-values'][mode][entry] = float(entryList[i].get())
+
         else:
             messagebox.showerror("Error", f"Entry is out of range for {data[entry][0]}.")
 
-    functions.writeToFile(mode + "parameters", data)
+    writeToFile(user_file_path, user_data)
+    writeToFile(mode + "parameters", data)
     print(data)
 
 
 def modePage(mode, page):
-    data = functions.openFile("ModeParameters")[mode]
+    data = openFile("ModeParameters")[mode]
+    user_mode_data = openFile(user_file_path)['mode-values'][mode]
     # data looks like: ["parameter", [min, max, default, set by user, "units"]]
 
     # placeholders for parameters, matches the max # in num_par
@@ -35,7 +43,7 @@ def modePage(mode, page):
         par_lbl = tkinter.Label(page, text=f"Parameter: {entry}")
         par_lbl.grid(row=i, column=0)
 
-        entry_list[i].insert(0, data[entry][3])
+        entry_list[i].insert(0, user_mode_data[entry])
         entry_list[i].grid(row=i, column=1)
 
         value_range = str(data[entry][0]) + "-" + str(data[entry][1]) + data[entry][4]
