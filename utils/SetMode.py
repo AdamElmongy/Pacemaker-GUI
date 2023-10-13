@@ -1,5 +1,5 @@
 import tkinter as tk
-from functions import writeToFile, openFile, getCurrentUser
+from .functions import writeToFile, openFile, getCurrentUser
 
 
 def SaveParameters(selection):

@@ -1,6 +1,7 @@
 class Navigator:
     def __init__(self):
         self.page_functions = {}
+        self.current_frame=None
         self.current_page = None
         self.main_app = None
 
@@ -9,15 +10,16 @@ class Navigator:
 
     def navigate_to_page(self, page_name):
         if page_name in self.page_functions:
-            if self.current_page:
-                self.main_app.pack_forget()  # Hide the current page
+            if self.current_frame:
+                self.current_frame.pack_forget()  # Hide the current page
             self.current_page = self.page_functions[page_name]()
-            self.current_page.pack(fill='both', expand=True)
             
 
-    def navigate_to_signin(self, tab):
+    def navigate_to_signin(self, current_page, tab):
+        print(self.current_page)
+        self.current_page = self.page_functions[current_page]
         if self.current_page:
-            self.current_page.destroy()
+            print(self.current_frame.pack_forget()) 
             print("page was destroyed")
         self.current_page = self.page_functions["SignIn"](tab)
 

@@ -1,5 +1,5 @@
 import tkinter
-from functions import writeToFile, openFile, getCurrentUser
+from utils.functions import writeToFile, openFile, getCurrentUser
 from tkinter import messagebox
 
 
@@ -31,10 +31,10 @@ def modePage(mode, page):
     page.columnconfigure(2, weight=1)
 
     # open the user's parameter file
-    data =openFile("ModeParameters")[mode]
+    data =openFile("data/ModeParameters")[mode]
     # data looks like: ["parameter": [min, max, default, set by user, "units"]]
 
-    data = openFile("ModeParameters")[mode]
+    data = openFile("data/ModeParameters")[mode]
     user = getCurrentUser()
     user_file_path = f"Users/{user}"
     user_mode_data = openFile(user_file_path)['mode-values'][mode]

@@ -1,20 +1,15 @@
 import tkinter as tk
 from About import About
-from Navigation import navigator
+from utils.Navigation import navigator
 from Modes import Modes
-from SetClock import SetClock
-from SetMode import SetMode
+from utils.SetClock import SetClock
+from utils.SetMode import SetMode
 
 
 def main_menu():
-    # root = tk.Tk()
-
-    # def switch_to_about():
-    #     root.destroy()
-    #     About()
-
     menu = tk.Frame(navigator.main_app)
-    menu.pack(fill='both', expand=True)
+    menu.pack(side='top', fill='both', expand=True)
+    navigator.current_frame = menu
 
     # Create a menu bar at the top as a frame
     menu_bar = tk.Frame(menu)
@@ -35,24 +30,21 @@ def main_menu():
     Modes(modes_frame)
 
     # New Patient button to return to login page
-    newpatientBtn = tk.Button(menu, text="New Patient- return to Login", command=lambda: navigator.navigate_to_signin("Register"))  # command would be to open New Patient
+    newpatientBtn = tk.Button(menu, text="New Patient- return to Login", command=lambda: navigator.navigate_to_signin("Menu", "Register"))  # command would be to open New Patient
 
     # Create frame for Set Mode
     set_mode_frame = tk.Frame(menu)
     SetMode(set_mode_frame)
 
     # Pack frames and buttons to the screen
-    menu_bar.pack(pady=10, fill="x")
-    modes_frame.pack(pady=20, padx=10, fill="both")
-    set_mode_frame.pack(pady=20)
+    menu_bar.pack(pady=5, fill="x")
+    modes_frame.pack(pady=10, padx=10, fill="both")
+    set_mode_frame.pack(pady=10)
     newpatientBtn.pack(pady=10)
 
-    # root.mainloop()
+
+navigator.register_page("Menu", main_menu)
 
 
 if __name__ == "__main__":
     main_menu()
-
-# def switch_to_about():
-#     root.destroy()
-#     About()

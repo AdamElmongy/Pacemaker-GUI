@@ -13,12 +13,12 @@ def writeToFile(file, data):
     return True
 
 def getCurrentUser():
-    return openFile("global")['CurrentUser']
+    return openFile("data/global")['CurrentUser']
 
 def setCurrentUser(user):
-    data = openFile("global")
+    data = openFile("data/global")
     data['CurrentUser'] = user
-    return writeToFile("global", data)
+    return writeToFile("data/global", data)
 
 
 

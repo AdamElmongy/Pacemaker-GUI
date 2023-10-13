@@ -1,7 +1,7 @@
 import tkinter
 from tkinter import ttk
 import MultipleModes
-from Navigation import navigator
+from utils.Navigation import navigator
 
 
 def Modes(root):
@@ -10,7 +10,7 @@ def Modes(root):
     # modes.title("Modes")
 
     notebook = ttk.Notebook(root)  # root used to be modes
-    notebook.pack(fill='both', expand=True)
+    notebook.pack(side='top', fill='both', expand=True)
 
     AOO_frame = tkinter.Frame(notebook)
     notebook.add(AOO_frame, text='AOO')
