@@ -2,37 +2,53 @@ import tkinter as tk
 from About import About
 from Navigation import navigator
 from Modes import Modes
+from SetClock import SetClock
+from SetMode import SetMode
 
 
-def main_menu(root):
-    # root = tk.Tk()
-
-    def switch_to_about():
-        root.destroy()
-        About()
-
+def main_menu():
+    # set up the window
+    root = tk.Tk()
     root.title("Main Menu")
-    menu = tk.Frame(root)
-    menu.pack(fill='both', expand=True)
+    root.geometry("500x500")
 
-    aboutBtn = tk.Button(menu, text = "About", command=lambda: navigator.navigate_to_page("About"))  # command would be to open About page
+    # Create a menu bar at the top as a frame
+    menu_bar = tk.Frame(root)
+    menu_bar.columnconfigure(0, weight=1)
+    menu_bar.columnconfigure(1, weight=1)
+    menu_bar.columnconfigure(2, weight=1)
 
-    # aboutBtn = tk.Button(menu, text="About", command=switch_to_about)  # command would be to open the next window
+    aboutBtn = tk.Button(menu_bar, text="About", command=lambda: About())
+    aboutBtn.grid(row=0, column=0, ipadx=10, sticky="w")
 
-    aboutBtn.pack(padx=10, pady=10)
+    date_lbl = tk.Label(menu_bar, text="DD/MM/YYYY 00:00:00")
+    date_lbl.grid(row=0, column=1,)
+    setclockBtn = tk.Button(menu_bar, text="Set Clock", command=lambda: SetClock(date_lbl))
+    setclockBtn.grid(row=0, column=2, ipadx=10, sticky="e")
 
-    setclockBtn = tk.Button(menu, text = "Set Clock", command=lambda: navigator.navigate_to_page("SetClock"))  # command would be to open SetClock page
-    setclockBtn.pack(padx=10, pady=10)
+    # Create a frame for the modes
+    modes_frame = tk.Frame(root)
+    Modes(modes_frame)
 
-    newpatientBtn = tk.Button(menu, text = "New Patient", command=lambda: navigator.navigate_to_signin("Register"))  # command would be to open New Patient
-    newpatientBtn.pack(padx=10, pady=10)
+    # New Patient button to return to login page
+    newpatientBtn = tk.Button(root, text="New Patient- return to Login", command=lambda: navigator.navigate_to_signin("Register"))  # command would be to open New Patient
 
-    modeBtn = tk.Button(menu, text = "Modes", command=Modes)  # command would be to open the Mode page
-    modeBtn.pack(padx=10, pady=10)
+    # Create frame for Set Mode
+    set_mode_frame = tk.Frame(root)
+    SetMode(set_mode_frame)
 
+    # Pack frames and buttons to the screen
+    menu_bar.pack(pady=10, fill="x")
+    modes_frame.pack(pady=20, padx=10, fill="both")
+    set_mode_frame.pack(pady=20)
+    newpatientBtn.pack(pady=10)
 
-    menu.mainloop()
+    root.mainloop()
 
 
 if __name__ == "__main__":
     main_menu()
+
+# def switch_to_about():
+#     root.destroy()
+#     About()

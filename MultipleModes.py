@@ -12,15 +12,21 @@ def updatepar(mode, data, entryList):
         if data[entry][0] <= float(entryList[i].get()) <= data[entry][1]:  # check if valid parameter value
             data[entry][3] = float(entryList[i].get())  # store in file
         else:
-            messagebox.showerror("Error", f"Entry is out of range for {data[entry][0]}.")
+            messagebox.showerror("Error", f"Entry is out of range for {entry}.")
 
     functions.writeToFile(mode + "parameters", data)
     print(data)
 
 
 def modePage(mode, page):
+    # configure the frame to space out the columns
+    page.columnconfigure(0, weight=1)
+    page.columnconfigure(1, weight=1)
+    page.columnconfigure(2, weight=1)
+
+    # open the user's parameter file
     data = functions.openFile("ModeParameters")[mode]
-    # data looks like: ["parameter", [min, max, default, set by user, "units"]]
+    # data looks like: ["parameter": [min, max, default, set by user, "units"]]
 
     # placeholders for parameters, matches the max # in num_par
     p1 = tkinter.Entry(page)
@@ -33,19 +39,21 @@ def modePage(mode, page):
 
     for i, entry in enumerate(data):  # for every parameter for the mode
         par_lbl = tkinter.Label(page, text=f"Parameter: {entry}")
-        par_lbl.grid(row=i, column=0)
+        par_lbl.grid(row=i, column=0, sticky="we", pady=2)
 
         entry_list[i].insert(0, data[entry][3])
-        entry_list[i].grid(row=i, column=1)
+        entry_list[i].grid(row=i, column=1, sticky="we", pady=2)
 
         value_range = str(data[entry][0]) + "-" + str(data[entry][1]) + data[entry][4]
         par_range = tkinter.Label(page, text="Value range is " + value_range)
-        par_range.grid(row=i, column=2)
+        par_range.grid(row=i, column=2, sticky="we", pady=2)
 
+
+    # Update File with the new parameter values
     updateBtn = tkinter.Button(page, text="Update",
                                command=lambda:
                                updatepar(mode, data, entry_list))
-    updateBtn.grid(row=len(data) + 1, columnspan=2)
+    updateBtn.grid(row=len(data) + 2, column=0, columnspan=3, pady=20, ipadx=100)
 
 
 # uncomment this to test this file alone (without Modes.py)

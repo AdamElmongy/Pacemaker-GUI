@@ -14,7 +14,8 @@ def signin(tab=None):
         users = openFile('users')
         for user in users:
             if ID == user[0] and password == user[1]:
-                show_main_menu()  # Switch to the main menu page
+                # show_main_menu()  # Switch to the main menu page
+                switch_to_main_menu()
                 return
         messagebox.showerror("Error", "Invalid username or password")
 
@@ -34,16 +35,21 @@ def signin(tab=None):
             users.append([ID, password])
             writeToFile('users', users)  # Assuming writeToFile function writes the data to a file
             writeToFile(f'Users/{ID}', users)
-            show_main_menu()  # Switch to the main menu page
+            # show_main_menu()  # Switch to the main menu page
+            switch_to_main_menu()
 
     # Function for switching to the Main Menu page
-    def show_main_menu():
-        # Hide the login and register tabs
-        notebook.pack_forget()
-        # Show the main menu frame
-        main_menu_frame.pack(fill='both', expand=True)
-        # Call the main_menu function to populate the frame
-        main_menu(signin)
+    # def show_main_menu():
+    #     # Hide the login and register tabs
+    #     notebook.pack_forget()
+    #     # Show the main menu frame
+    #     main_menu_frame.pack(fill='both', expand=True)
+    #     # Call the main_menu function to populate the frame
+    #     main_menu(signin)
+
+    def switch_to_main_menu():
+        signin.destroy()
+        main_menu()
 
     signin = tk.Tk()
     signin.title("Login/Register Form")
