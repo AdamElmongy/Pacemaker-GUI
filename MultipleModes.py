@@ -72,7 +72,7 @@ def modePage(mode, page):
 
 
 # uncomment this to test this file alone (without Modes.py)
-# state = tkinter.Tk()
-# state.geometry("500x500")
-# #modePage("VVI", state)
-# state.mainloop()
+state = tkinter.Tk()
+state.geometry("500x500")
+modePage("VVI", state)
+state.mainloop()
