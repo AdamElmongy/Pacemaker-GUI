@@ -31,7 +31,7 @@ user_default_values = {
         "URL": 120,
         "VAmp": 3.5,
         "VPW": 0.4,
-        "VRP": 250
+        "VRP": 320
     }
 }
 
@@ -69,16 +69,10 @@ def signin(tab=None):
                 "mode-values": user_default_values
             }
             writeToFile('users', users)  # Assuming writeToFile function writes the data to a file
-
-            writeToFile(f'Users/{ID}', users)
-            # show_main_menu()  # Switch to the main menu page
-            switch_to_main_menu()
-
             writeToFile(f'Users/{ID}', user_file_data)
             setCurrentUser(ID)
             switch_to_main_menu()
-            #show_main_menu()  # Switch to the main menu page
-
+            # show_main_menu()  # Switch to the main menu page
 
     # Function for switching to the Main Menu page
     # def show_main_menu():

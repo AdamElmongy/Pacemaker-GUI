@@ -40,7 +40,7 @@ def modePage(mode, page):
     user_mode_data = openFile(user_file_path)['mode-values'][mode]
     # data looks like: ["parameter", [min, max, default, set by user, "units"]]
 
-    # placeholders for parameters, matches the max # in num_par
+    # number of placeholders for parameters, matches the max # in num_par
     p1 = tkinter.Entry(page)
     p2 = tkinter.Entry(page)
     p3 = tkinter.Entry(page)
@@ -53,12 +53,8 @@ def modePage(mode, page):
         par_lbl = tkinter.Label(page, text=f"Parameter: {entry}")
         par_lbl.grid(row=i, column=0, sticky="we", pady=2)
 
-        entry_list[i].insert(0, data[entry][3])
-        entry_list[i].grid(row=i, column=1, sticky="we", pady=2)
-
         entry_list[i].insert(0, user_mode_data[entry])
         entry_list[i].grid(row=i, column=1)
-
 
         value_range = str(data[entry][0]) + "-" + str(data[entry][1]) + data[entry][4]
         par_range = tkinter.Label(page, text="Value range is " + value_range)
