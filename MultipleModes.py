@@ -2,11 +2,10 @@ import tkinter
 from functions import writeToFile, openFile, getCurrentUser
 from tkinter import messagebox
 
-user = getCurrentUser()
-print(user)
-user_file_path = f"Users/{user}"
 
 def updatepar(mode, data, entryList):
+    user = getCurrentUser()
+    user_file_path = f"Users/{user}"
     user_data = openFile(user_file_path)
     for i, entry in enumerate(data):
         try:
@@ -36,6 +35,8 @@ def modePage(mode, page):
     # data looks like: ["parameter": [min, max, default, set by user, "units"]]
 
     data = openFile("ModeParameters")[mode]
+    user = getCurrentUser()
+    user_file_path = f"Users/{user}"
     user_mode_data = openFile(user_file_path)['mode-values'][mode]
     # data looks like: ["parameter", [min, max, default, set by user, "units"]]
 
