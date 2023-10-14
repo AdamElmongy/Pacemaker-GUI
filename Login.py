@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
-from MainMenu import main_menu
 from utils.functions import openFile, writeToFile, setCurrentUser
 from utils.Navigation import navigator
 

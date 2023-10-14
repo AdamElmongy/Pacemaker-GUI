@@ -1,5 +1,4 @@
 from tkinter import *
-from Login import signin
 from utils.Navigation import navigator
 
 def Welcome():

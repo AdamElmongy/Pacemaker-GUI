@@ -10,31 +10,32 @@ class Modes:
     def __init__(self, root):
         self.root = root
         self.notebook = ttk.Notebook(root)
-
-        # Frame for each mode
-        self.AOO_frame = tkinter.Frame(self.notebook)
-        self.VOO_frame = tkinter.Frame(self.notebook)
-        self.AAI_frame = tkinter.Frame(self.notebook)
-        self.VVI_frame = tkinter.Frame(self.notebook)
+        self.max_par = 5
 
         navigator.register_page("Modes", Modes)
 
         self.createTabs()
 
     def createTabs(self):
+        # Frame for each mode
+        AOO_frame = tkinter.Frame(self.notebook)
+        VOO_frame = tkinter.Frame(self.notebook)
+        AAI_frame = tkinter.Frame(self.notebook)
+        VVI_frame = tkinter.Frame(self.notebook)
+
         self.notebook.pack(side='top', fill='both', expand=True)
 
-        self.notebook.add(self.AOO_frame, text='AOO')
-        self.__modePage("AOO", self.AOO_frame)
+        self.notebook.add(AOO_frame, text='AOO')
+        self.__modePage("AOO", AOO_frame)
 
-        self.notebook.add(self.VOO_frame, text='VOO')
-        self.__modePage("VOO", self.VOO_frame)
+        self.notebook.add(VOO_frame, text='VOO')
+        self.__modePage("VOO", VOO_frame)
 
-        self.notebook.add(self.AAI_frame, text='AAI')
-        self.__modePage("AAI", self.AAI_frame)
+        self.notebook.add(AAI_frame, text='AAI')
+        self.__modePage("AAI", AAI_frame)
 
-        self.notebook.add(self.VVI_frame, text='VVI')
-        self.__modePage("VVI", self.VVI_frame)
+        self.notebook.add(VVI_frame, text='VVI')
+        self.__modePage("VVI", VVI_frame)
 
     def __updatepar(self, mode, data, entryList):
         user = getCurrentUser()
@@ -64,21 +65,16 @@ class Modes:
         # open the user's parameter file
         data = openFile("data/ModeParameters")[mode]
         # data looks like: ["parameter": [min, max, default, set by user, "units"]]
-
-        data = openFile("data/ModeParameters")[mode]
         user = getCurrentUser()
         user_file_path = f"Users/{user}"
         user_mode_data = openFile(user_file_path)['mode-values'][mode]
         # data looks like: ["parameter", [min, max, default, set by user, "units"]]
 
         # number of placeholders for parameters, matches the max # in num_par
-        p1 = tkinter.Entry(page)
-        p2 = tkinter.Entry(page)
-        p3 = tkinter.Entry(page)
-        p4 = tkinter.Entry(page)
-        p5 = tkinter.Entry(page)
-
-        entry_list = [p1, p2, p3, p4, p5]
+        entry_list = []
+        for i in range(self.max_par):
+            p = tkinter.Entry(page)
+            entry_list.append(p)
 
         for i, entry in enumerate(data):  # for every parameter for the mode
             par_lbl = tkinter.Label(page, text=f"Parameter: {entry}")
