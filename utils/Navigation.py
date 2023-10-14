@@ -1,7 +1,7 @@
 class Navigator:
     def __init__(self):
         self.page_functions = {}
-        self.current_frame=None
+        self.current_frame = None
         self.current_page = None
         self.main_app = None
 
@@ -13,7 +13,6 @@ class Navigator:
             if self.current_frame:
                 self.current_frame.pack_forget()  # Hide the current page
             self.current_page = self.page_functions[page_name]()
-            
 
     def navigate_to_signin(self, current_page, tab):
         print(self.current_page)

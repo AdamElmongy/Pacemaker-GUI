@@ -12,7 +12,7 @@ def SaveParameters(selection):
     for i in user_mode_data:
         data.append(user_mode_data[i])
 
-    writeToFile('send', data)
+    writeToFile('data/send', data)
 
     print("sending "+str(data)+" to pacemaker")
     return

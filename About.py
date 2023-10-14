@@ -38,7 +38,6 @@ def About():
     about.protocol("WM_DELETE_WINDOW", close_about_popup)
 
 
-
 # Example usage
 if __name__ == "__main__":
     About()
