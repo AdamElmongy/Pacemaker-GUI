@@ -53,7 +53,6 @@ class Modes:
                 messagebox.showerror("Error", f"Entry is out of range for {entry}.")
 
         writeToFile(user_file_path, user_data)
-        writeToFile(mode + "parameters", data)
         print(data)
 
     def __modePage(self, mode, page):
