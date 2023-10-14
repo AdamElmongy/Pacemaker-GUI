@@ -23,11 +23,10 @@ def Welcome():
     welcome_label.place(relx=.5, rely=.5, anchor="center")
 
     # After 5000 milliseconds (5 seconds), switch to the login/register page
-    welcome.after(5000, lambda: (welcome.pack_forget(), signin()))
+    welcome.after(5000, lambda: navigator.navigate_to_page("SignIn"))  # (welcome.pack_forget(), signin()))
 
     # Execute Tkinter
     root.mainloop()
-
 
 
 navigator.register_page("Welcome", Welcome)

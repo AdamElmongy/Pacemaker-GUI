@@ -44,7 +44,7 @@ def signin(tab=None):
         for user in users:
             if ID == user[0] and password == user[1]:
                 setCurrentUser(ID)
-                show_main_menu()  # Switch to the main menu page
+                navigator.navigate_to_page("Menu")
                 return
         messagebox.showerror("Error", "Invalid username or password")
 
@@ -70,14 +70,14 @@ def signin(tab=None):
             writeToFile('data/users', users)  # Assuming writeToFile function writes the data to a file
             writeToFile(f'Users/{ID}', user_file_data)
             setCurrentUser(ID)
-            show_main_menu()  # Switch to the main menu page
+            navigator.navigate_to_page("Menu")
 
     # Function for switching to the Main Menu page
-    def show_main_menu():
-        # Hide the login and register tabs
-        signin.pack_forget()
-        # Call the main_menu function to populate the frame
-        main_menu()
+    # def show_main_menu():
+    #     # Hide the login and register tabs
+    #     signin.pack_forget()
+    #     # Call the main_menu function to populate the frame
+    #     main_menu()
 
     signin = tk.Frame(navigator.main_app, bg='#000000')
     navigator.current_frame = signin
