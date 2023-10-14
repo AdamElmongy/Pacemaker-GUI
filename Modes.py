@@ -18,8 +18,6 @@ class Modes:
         self.VVI_frame = tkinter.Frame(self.notebook)
 
         navigator.register_page("Modes", Modes)
-        if __name__ == "__main__":
-            Modes()
 
         self.createTabs()
 

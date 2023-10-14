@@ -18,9 +18,6 @@ class Menu:
 
         self.__layout()
 
-        # Example usage
-        if __name__ == "__main__":
-            self.About()
 
     def __layout(self):
         self.menu_bar.columnconfigure(0, weight=1)
@@ -59,13 +56,13 @@ class Menu:
         institution_lbl = tk.Label(self.about, text=f"Institution: McMaster University")
         institution_lbl.pack(padx=20, pady=20, anchor='w')
 
-        close_button = tk.Button(self.about, text="Close", command=self.close_about_popup)
+        close_button = tk.Button(self.about, text="Close", command=self.__close_about_popup)
         close_button.pack(pady=20)
 
         # Bind the close button to the window close event to handle closing the popup
-        self.about.protocol("WM_DELETE_WINDOW", self.close_about_popup)
+        self.about.protocol("WM_DELETE_WINDOW", self.__close_about_popup)
 
-    def close_about_popup(self):
+    def __close_about_popup(self):
         self.about_popup_open = False
         self.about.destroy()
 

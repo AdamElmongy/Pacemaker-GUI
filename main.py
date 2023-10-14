@@ -31,9 +31,7 @@ def Welcome():
 
 
 navigator.register_page("Welcome", Welcome)
-
-if __name__ == "__main__":
-    Welcome()
+Welcome()
 
 
 

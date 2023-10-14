@@ -2,7 +2,7 @@ import tkinter as tk
 from utils.Navigation import navigator
 from Modes import Modes
 from Menu import Menu
-from utils.SetMode import SetMode
+from SetMode import SetMode
 
 
 def main_menu():
