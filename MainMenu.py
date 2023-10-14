@@ -36,5 +36,3 @@ def main_menu():
 navigator.register_page("Menu", main_menu)
 
 
-if __name__ == "__main__":
-    main_menu()

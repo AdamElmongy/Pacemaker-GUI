@@ -18,7 +18,6 @@ class Menu:
 
         self.__layout()
 
-
     def __layout(self):
         self.menu_bar.columnconfigure(0, weight=1)
         self.menu_bar.columnconfigure(1, weight=1)

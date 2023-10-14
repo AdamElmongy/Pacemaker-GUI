@@ -131,7 +131,6 @@ def signin(tab=None):
 
 navigator.register_page("SignIn", signin)
 
-if __name__ == "__main__":
-    signin()
+
 
 
