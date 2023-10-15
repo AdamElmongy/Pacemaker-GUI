@@ -1,6 +1,5 @@
 import tkinter
 from tkinter import ttk
-from utils.Navigation import navigator
 from utils.functions import writeToFile, openFile, getCurrentUser
 from tkinter import messagebox
 
@@ -8,37 +7,34 @@ from tkinter import messagebox
 class Modes:
 
     def __init__(self, root):
-        self.root = root
-        self.notebook = ttk.Notebook(root)
-        self.max_par = 5
-
-        navigator.register_page("Modes", Modes)
-
+        self.__root = root
+        self.__notebook = ttk.Notebook(root)
+        self.__max_par = 5
         self.createTabs()
 
     def createTabs(self):
 
         # Frame for each mode
-        AOO_frame = tkinter.Frame(self.notebook)
-        VOO_frame = tkinter.Frame(self.notebook)
-        AAI_frame = tkinter.Frame(self.notebook)
-        VVI_frame = tkinter.Frame(self.notebook)
+        AOO_frame = tkinter.Frame(self.__notebook)
+        VOO_frame = tkinter.Frame(self.__notebook)
+        AAI_frame = tkinter.Frame(self.__notebook)
+        VVI_frame = tkinter.Frame(self.__notebook)
 
-        self.notebook.pack(side='top', fill='both', expand=True)
+        self.__notebook.add(AOO_frame, text='AOO')
+        self.modePage("AOO", AOO_frame)
 
-        self.notebook.add(AOO_frame, text='AOO')
-        self.__modePage("AOO", AOO_frame)
+        self.__notebook.add(VOO_frame, text='VOO')
+        self.modePage("VOO", VOO_frame)
 
-        self.notebook.add(VOO_frame, text='VOO')
-        self.__modePage("VOO", VOO_frame)
+        self.__notebook.add(AAI_frame, text='AAI')
+        self.modePage("AAI", AAI_frame)
 
-        self.notebook.add(AAI_frame, text='AAI')
-        self.__modePage("AAI", AAI_frame)
+        self.__notebook.add(VVI_frame, text='VVI')
+        self.modePage("VVI", VVI_frame)
 
-        self.notebook.add(VVI_frame, text='VVI')
-        self.__modePage("VVI", VVI_frame)
+        self.__notebook.pack(side='top', fill='both', expand=True)
 
-    def __updatepar(self, mode, data, entryList):
+    def updatepar(self, mode, data, entryList):
         user = getCurrentUser()
         user_file_path = f"Users/{user}"
         user_data = openFile(user_file_path)
@@ -48,34 +44,33 @@ class Modes:
             except ValueError:  # did not enter a number as digits
                 messagebox.showerror("Error", "Invalid entry for " + entry + ". Enter as number!")
             if data[entry][0] <= float(entryList[i].get()) <= data[entry][1]:  # check if valid parameter value
-                data[entry][3] = float(entryList[i].get())  # store in file
-                user_data['mode-values'][mode][entry] = float(entryList[i].get())
+                user_data['mode-values'][mode][entry] = float(entryList[i].get())  # store in file
 
             else:
                 messagebox.showerror("Error", f"Entry is out of range for {entry}.")
 
         writeToFile(user_file_path, user_data)
-        print(data)
+        print(user_data)
 
-    def __modePage(self, mode, page):
+    def modePage(self, mode, page):
         # configure the frame to space out the columns
         page.columnconfigure(0, weight=1)
         page.columnconfigure(1, weight=1)
         page.columnconfigure(2, weight=1)
 
+        # number of placeholders for parameters, matches the max # in num_par
+        entry_list = []
+        for i in range(self.__max_par):
+            p = tkinter.Entry(page)
+            entry_list.append(p)
+
         # open the user's parameter file
         data = openFile("data/ModeParameters")[mode]
-        # data looks like: ["parameter": [min, max, default, set by user, "units"]]
+        # data looks like: ["parameter": [min, max, default, "units"]]
         user = getCurrentUser()
         user_file_path = f"Users/{user}"
         user_mode_data = openFile(user_file_path)['mode-values'][mode]
-        # data looks like: ["parameter", [min, max, default, set by user, "units"]]
-
-        # number of placeholders for parameters, matches the max # in num_par
-        entry_list = []
-        for i in range(self.max_par):
-            p = tkinter.Entry(page)
-            entry_list.append(p)
+        # user_mode_data looks like: {"parameter": value, "parameter": value ... }
 
         for i, entry in enumerate(data):  # for every parameter for the mode
             par_lbl = tkinter.Label(page, text=f"Parameter: {entry}")
@@ -84,14 +79,14 @@ class Modes:
             entry_list[i].insert(0, user_mode_data[entry])
             entry_list[i].grid(row=i, column=1)
 
-            value_range = str(data[entry][0]) + "-" + str(data[entry][1]) + data[entry][4]
+            value_range = str(data[entry][0]) + "-" + str(data[entry][1]) + data[entry][3]
             par_range = tkinter.Label(page, text="Value range is " + value_range)
             par_range.grid(row=i, column=2, sticky="we", pady=2)
 
         # Update File with the new parameter values
-        updateBtn = tkinter.Button(page, text="Update",
+        updateBtn = tkinter.Button(page, text="Update " + mode + " parameters",
                                    command=lambda:
-                                   self.__updatepar(mode, data, entry_list))
+                                   self.updatepar(mode, data, entry_list))
         updateBtn.grid(row=len(data) + 2, column=0, columnspan=3, pady=20, ipadx=100)
 
 

@@ -10,31 +10,31 @@ from SetMode import SetMode
 
 class DCM:
     def __init__(self, root):
-        self.root = root
-        self.root.title("Welcome to Test")
-        self.width = self.root.winfo_screenwidth()
-        self.height = self.root.winfo_screenheight()
-        self.root.geometry("%dx%d" % (self.width, self.height))
-        self.root.configure(bg='#FFFFFF')
+        self.__root = root
+        self.__root.title("Welcome to Test")
+        width = self.__root.winfo_screenwidth()
+        height = self.__root.winfo_screenheight()
+        self.__root.geometry("%dx%d" % (width, height))
+        self.__root.configure(bg='#FFFFFF')
 
-        navigator.main_app = self.root
-        navigator.current_frame = self.root
+        navigator.main_app = self.__root
+        navigator.current_frame = self.__root
 
-        navigator.register_page("Welcome", self.__welcome)
-        navigator.register_page("SignIn", self.__signin)
-        navigator.register_page("MainMenu", self.__mainmenu)
+        navigator.register_page("Welcome", self.welcome)
+        navigator.register_page("SignIn", self.signin)
+        navigator.register_page("MainMenu", self.mainmenu)
 
-        self.user_default_values = {
+        self.__user_default_values = {
             "AAI": {"LRL": 60, "URL": 120, "AAmp": 3.5, "APW": 0.4, "ARP": 250},
             "AOO": {"LRL": 60, "URL": 120, "AAmp": 3.5, "APW": 0.4},
             "VOO": {"LRL": 60, "URL": 120, "VAmp": 3.5, "VPW": 0.4},
             "VVI": {"LRL": 60, "URL": 120, "VAmp": 3.5, "VPW": 0.4, "VRP": 320}
         }
 
-        self.__welcome()
+        self.welcome()
 
-    def __welcome(self):
-        welcome = tk.Frame(self.root, bg='#000000')
+    def welcome(self):
+        welcome = tk.Frame(self.__root, bg='#000000')
         welcome.pack(fill='both', expand=True)
         navigator.current_frame = welcome
 
@@ -45,7 +45,7 @@ class DCM:
         # After 5000 milliseconds (5 seconds), switch to the login/register page
         welcome.after(5000, lambda: navigator.navigate_to_page("SignIn"))
 
-    def __signin(self, tab=None):
+    def signin(self, tab=None):
         signin = tk.Frame(navigator.main_app, bg='#000000')
         navigator.current_frame = signin
 
@@ -70,7 +70,7 @@ class DCM:
 
         login_button = tk.Button(login_frame, text="Login",
                                  command=lambda:
-                                 self.__login(login_username_entry, login_password_entry))
+                                 self.login(login_username_entry, login_password_entry))
         login_button.pack(anchor='center', padx=10)
 
         # Frame for Register tab
@@ -90,14 +90,14 @@ class DCM:
 
         register_button = tk.Button(register_frame, text="Register",
                                     command=lambda:
-                                    self.__register(register_username_entry, register_password_entry))
+                                    self.register(register_username_entry, register_password_entry))
         register_button.pack(anchor='center', padx=10)
 
         # Run the Tkinter main loop
         notebook.select(register_frame) if tab == "Register" else notebook.select(login_frame)
         signin.pack(fill='both', expand=True)
 
-    def __login(self, username, password):
+    def login(self, username, password):
         ID = username.get()
         key = password.get()
         users = openFile('data/users')
@@ -108,7 +108,7 @@ class DCM:
                 return
         messagebox.showerror("Error", "Invalid username or password")
 
-    def __register(self, username, password):
+    def register(self, username, password):
         ID = username.get()
         key = password.get()
         users = openFile('data/users')
@@ -125,14 +125,14 @@ class DCM:
 
             user_file_data = {
                 "username": ID,
-                "mode-values": self.user_default_values
+                "mode-values": self.__user_default_values
             }
             writeToFile('data/users', users)  # Assuming writeToFile function writes the data to a file
             writeToFile(f'Users/{ID}', user_file_data)
             setCurrentUser(ID)
             navigator.navigate_to_page("MainMenu")
 
-    def __mainmenu(self):
+    def mainmenu(self):
         menu = tk.Frame(navigator.main_app)
         menu.pack(side='top', fill='both', expand=True)
         navigator.current_frame = menu

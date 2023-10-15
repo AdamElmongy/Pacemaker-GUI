@@ -1,48 +1,47 @@
 import tkinter as tk
 import datetime
-from utils.functions import openFile
 
 
 class MenuBar:
     def __init__(self, menu_frame):
-        # create menu frame and button/labels
-        self.menu_bar = menu_frame
-        self.aboutBtn = tk.Button(self.menu_bar, text="About", command=lambda: self.__About())
-        self.date_lbl = tk.Label(self.menu_bar, text="DD/MM/YYYY 00:00:00")
-        self.setclockBtn = tk.Button(self.menu_bar, text="Set Clock",
-                                     command=lambda: self.__SetClock())
-
+        # create menu frame, about pop up, and button/labels
+        self.__menu_bar = menu_frame
+        self.__aboutBtn = tk.Button(self.__menu_bar, text="About", command=lambda: self.About())
+        self.__date_lbl = tk.Label(self.__menu_bar, text="DD/MM/YYYY 00:00:00")
+        self.__setclockBtn = tk.Button(self.__menu_bar, text="Set Clock",
+                                       command=lambda: self.SetClock())
+        self.about = None  # container for pop up
         # Attributes for About() method
-        self.about_popup_open = False  # Flag variable to track if the About popup is open
-        self.data = openFile("data/global")
+        self.__about_popup_open = False  # Flag variable to track if the About popup is open
+        # self.data = openFile("data/global")
 
-        self.__layout()
+        self.layout()
 
-    def __layout(self):
-        self.menu_bar.columnconfigure(0, weight=1)
-        self.menu_bar.columnconfigure(1, weight=1)
-        self.menu_bar.columnconfigure(2, weight=1)
+    def layout(self):
+        self.__menu_bar.columnconfigure(0, weight=1)
+        self.__menu_bar.columnconfigure(1, weight=1)
+        self.__menu_bar.columnconfigure(2, weight=1)
 
         # About button in the top left corner
-        self.aboutBtn.grid(row=0, column=0, ipadx=10, sticky="w")
+        self.__aboutBtn.grid(row=0, column=0, ipadx=10, sticky="w")
 
         # Header with date and time at the top center
-        self.date_lbl.grid(row=0, column=1)
+        self.__date_lbl.grid(row=0, column=1)
 
         # Set Clock Button in the top right corner
-        self.setclockBtn.grid(row=0, column=2, ipadx=10, sticky="e")
+        self.__setclockBtn.grid(row=0, column=2, ipadx=10, sticky="e")
 
-    def __SetClock(self):
+    def SetClock(self):
         date = datetime.datetime.now()
         date_str = date.strftime("%m/%d/%Y, %H:%M:%S")
-        self.date_lbl.configure(text=date_str)
+        self.__date_lbl.configure(text=date_str)
 
-    def __About(self):
-        if self.about_popup_open:
+    def About(self):
+        if self.__about_popup_open:
             return
 
+        self.__about_popup_open = True
         self.about = tk.Toplevel()
-        self.about_popup_open = True
         self.about.geometry("250x250")
         self.about.title("About")
 
@@ -55,14 +54,14 @@ class MenuBar:
         institution_lbl = tk.Label(self.about, text=f"Institution: McMaster University")
         institution_lbl.pack(padx=20, pady=20, anchor='w')
 
-        close_button = tk.Button(self.about, text="Close", command=self.__close_about_popup)
+        close_button = tk.Button(self.about, text="Close", command=self.close_about_popup)
         close_button.pack(pady=20)
 
         # Bind the close button to the window close event to handle closing the popup
-        self.about.protocol("WM_DELETE_WINDOW", self.__close_about_popup)
+        self.about.protocol("WM_DELETE_WINDOW", self.close_about_popup)
 
-    def __close_about_popup(self):
-        self.about_popup_open = False
+    def close_about_popup(self):
+        self.__about_popup_open = False
         self.about.destroy()
 
 
