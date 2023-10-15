@@ -1,26 +1,35 @@
 class Navigator:
     def __init__(self):
-        self.page_functions = {}
-        self.current_frame = None
-        self.current_page = None
-        self.main_app = None
+        self.__page_functions = {}
+        self.__current_frame = None
+        self.__current_page = None
+        self.__main_app = None
 
     def register_page(self, page_name, page_function):
-        self.page_functions[page_name] = page_function
+        self.__page_functions[page_name] = page_function
 
     def navigate_to_page(self, page_name):
-        if page_name in self.page_functions:
-            if self.current_frame:
-                self.current_frame.pack_forget()  # Hide the current page
-            self.current_page = self.page_functions[page_name]()
+        if page_name in self.__page_functions:
+            if self.__current_frame:
+                self.__current_frame.pack_forget()  # Hide the current page
+            self.__current_page = self.__page_functions[page_name]()
 
     def navigate_to_signin(self, current_page, tab):
-        print(self.current_page)
-        self.current_page = self.page_functions[current_page]
-        if self.current_page:
-            print(self.current_frame.pack_forget()) 
+        print(self.__current_page)
+        self.__current_page = self.__page_functions[current_page]
+        if self.__current_page:
+            print(self.__current_frame.pack_forget())
             print("page was destroyed")
-        self.current_page = self.page_functions["SignIn"](tab)
+        self.__current_page = self.__page_functions["SignIn"](tab)
+
+    def set_main_app(self, main_app):
+        self.__main_app = main_app
+
+    def get_main_app(self):
+        return self.__main_app
+
+    def set_current_frame(self, frame):
+        self.__current_frame = frame
 
 
 navigator = Navigator()

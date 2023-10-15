@@ -17,8 +17,8 @@ class DCM:
         self.__root.geometry("%dx%d" % (width, height))
         self.__root.configure(bg='#FFFFFF')
 
-        navigator.main_app = self.__root
-        navigator.current_frame = self.__root
+        navigator.set_main_app(self.__root)
+        navigator.set_current_frame(self.__root)
 
         navigator.register_page("Welcome", self.welcome)
         navigator.register_page("SignIn", self.signin)
@@ -36,7 +36,7 @@ class DCM:
     def welcome(self):
         welcome = tk.Frame(self.__root, bg='#000000')
         welcome.pack(fill='both', expand=True)
-        navigator.current_frame = welcome
+        navigator.set_current_frame(welcome)
 
         welcome_label = tk.Label(welcome, text="Welcome to the Pacemaker", font=("Arial", 25), bg='#000000',
                                  fg='#FFFFFF')
@@ -46,8 +46,8 @@ class DCM:
         welcome.after(5000, lambda: navigator.navigate_to_page("SignIn"))
 
     def signin(self, tab=None):
-        signin = tk.Frame(navigator.main_app, bg='#000000')
-        navigator.current_frame = signin
+        signin = tk.Frame(navigator.get_main_app(), bg='#000000')
+        navigator.set_current_frame(signin)
 
         # Create a Notebook (tabbed interface) for login and register
         notebook = ttk.Notebook(signin)
@@ -133,9 +133,9 @@ class DCM:
             navigator.navigate_to_page("MainMenu")
 
     def mainmenu(self):
-        menu = tk.Frame(navigator.main_app)
+        menu = tk.Frame(navigator.get_main_app())
         menu.pack(side='top', fill='both', expand=True)
-        navigator.current_frame = menu
+        navigator.set_current_frame(menu)
 
         # Create a menu bar at the top as a frame
         menu_bar = tk.Frame(menu)
