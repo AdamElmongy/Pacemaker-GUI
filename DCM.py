@@ -4,7 +4,7 @@ from utils.Navigation import navigator
 from tkinter import messagebox
 from utils.functions import openFile, writeToFile, setCurrentUser
 from Modes import Modes
-from Menu import Menu
+from MenuBar import MenuBar
 from SetMode import SetMode
 
 
@@ -22,7 +22,7 @@ class DCM:
 
         navigator.register_page("Welcome", self.__welcome)
         navigator.register_page("SignIn", self.__signin)
-        navigator.register_page("Menu", self.__menu)
+        navigator.register_page("MainMenu", self.__mainmenu)
 
         self.user_default_values = {
             "AAI": {"LRL": 60, "URL": 120, "AAmp": 3.5, "APW": 0.4, "ARP": 250},
@@ -104,7 +104,7 @@ class DCM:
         for user in users:
             if ID == user[0] and key == user[1]:
                 setCurrentUser(ID)
-                navigator.navigate_to_page("Menu")
+                navigator.navigate_to_page("MainMenu")
                 return
         messagebox.showerror("Error", "Invalid username or password")
 
@@ -130,16 +130,16 @@ class DCM:
             writeToFile('data/users', users)  # Assuming writeToFile function writes the data to a file
             writeToFile(f'Users/{ID}', user_file_data)
             setCurrentUser(ID)
-            navigator.navigate_to_page("Menu")
+            navigator.navigate_to_page("MainMenu")
 
-    def __menu(self):
+    def __mainmenu(self):
         menu = tk.Frame(navigator.main_app)
         menu.pack(side='top', fill='both', expand=True)
         navigator.current_frame = menu
 
         # Create a menu bar at the top as a frame
         menu_bar = tk.Frame(menu)
-        Menu(menu_bar)
+        MenuBar(menu_bar)
 
         # Create a frame for the modes
         modes_frame = tk.Frame(menu)
@@ -148,7 +148,7 @@ class DCM:
         # New Patient button to return to login page
         newpatient_btn = tk.Button(menu, text="New Patient- return to Login",
                                    command=lambda:
-                                   navigator.navigate_to_signin("Menu", "Register"))
+                                   navigator.navigate_to_signin("MainMenu", "Register"))
 
         # Create frame for Set Mode
         set_mode_frame = tk.Frame(menu)

@@ -17,6 +17,7 @@ class Modes:
         self.createTabs()
 
     def createTabs(self):
+
         # Frame for each mode
         AOO_frame = tkinter.Frame(self.notebook)
         VOO_frame = tkinter.Frame(self.notebook)

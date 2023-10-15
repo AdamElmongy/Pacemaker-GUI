@@ -1,7 +1,7 @@
 import tkinter as tk
 from utils.Navigation import navigator
 from Modes import Modes
-from Menu import Menu
+from MenuBar import Menu
 from SetMode import SetMode
 
 

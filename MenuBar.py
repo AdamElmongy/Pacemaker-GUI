@@ -3,14 +3,14 @@ import datetime
 from utils.functions import openFile
 
 
-class Menu:
+class MenuBar:
     def __init__(self, menu_frame):
         # create menu frame and button/labels
         self.menu_bar = menu_frame
         self.aboutBtn = tk.Button(self.menu_bar, text="About", command=lambda: self.__About())
         self.date_lbl = tk.Label(self.menu_bar, text="DD/MM/YYYY 00:00:00")
         self.setclockBtn = tk.Button(self.menu_bar, text="Set Clock",
-                                     command=lambda: self.__SetClock(self.date_lbl))
+                                     command=lambda: self.__SetClock())
 
         # Attributes for About() method
         self.about_popup_open = False  # Flag variable to track if the About popup is open
@@ -32,10 +32,10 @@ class Menu:
         # Set Clock Button in the top right corner
         self.setclockBtn.grid(row=0, column=2, ipadx=10, sticky="e")
 
-    def __SetClock(self, date_lbl):
+    def __SetClock(self):
         date = datetime.datetime.now()
         date_str = date.strftime("%m/%d/%Y, %H:%M:%S")
-        date_lbl.configure(text=date_str)
+        self.date_lbl.configure(text=date_str)
 
     def __About(self):
         if self.about_popup_open:
