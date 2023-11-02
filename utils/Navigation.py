@@ -13,7 +13,7 @@ class Navigator:
             self.__current_frame.pack_forget()  # Hide the current page
             self.__current_page = self.__page_functions[page_name]()
 
-    def navigate_to_signin(self, current_page, tab):
+    def navigate_to_signin(self, current_page, tab=None):
         self.__current_page = self.__page_functions[current_page]
         if self.__current_page:
             print(self.__current_frame.pack_forget())

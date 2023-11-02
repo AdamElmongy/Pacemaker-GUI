@@ -17,7 +17,10 @@ def getCurrentUser():
 
 def setCurrentUser(user):
     data = openFile("data/global")
-    data['CurrentUser'] = user
+    if user == None:
+        data['CurrentUser'] = None
+    else:
+        data['CurrentUser'] = user
     return writeToFile("data/global", data)
 
 
