@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from utils.Navigation import navigator
 from tkinter import messagebox
-from utils.functions import openFile, writeToFile, setCurrentUser
+from utils.functions import openFile, writeToFile, setCurrentUser, getCurrentUser
 from Modes import Modes
 from MenuBar import MenuBar
 from SetMode import SetMode
@@ -16,6 +16,8 @@ class DCM:
         height = self.__root.winfo_screenheight()
         self.__root.geometry("%dx%d" % (width, height))
         self.__root.configure(bg='#FFFFFF')
+        self.delete_popup = None
+        self.__confirm_deletion_popup_open = False
 
         navigator.set_main_app(self.__root)
         navigator.set_current_frame(self.__root)
@@ -46,6 +48,7 @@ class DCM:
         welcome.after(5000, lambda: navigator.navigate_to_page("SignIn"))
 
     def signin(self, tab=None):
+        user_count = len(openFile('data/users'))
         signin = tk.Frame(navigator.get_main_app(), bg='#000000')
         navigator.set_current_frame(signin)
 
@@ -67,11 +70,13 @@ class DCM:
         login_password_label.pack(anchor='center', padx=10)
         login_password_entry = tk.Entry(login_frame, show="*")
         login_password_entry.pack(anchor='center', padx=10)
-
+        
         login_button = tk.Button(login_frame, text="Login",
                                  command=lambda:
                                  self.login(login_username_entry, login_password_entry))
-        login_button.pack(anchor='center', padx=10)
+        login_button.pack(anchor='center', padx=10, pady=10)
+        user_count_login_label = tk.Label(login_frame, text=f"Current number of registered users: {user_count}")
+        user_count_login_label.pack(anchor='center', padx=10, pady=10)
 
         # Frame for Register tab
         register_frame = ttk.Frame(notebook)
@@ -91,7 +96,10 @@ class DCM:
         register_button = tk.Button(register_frame, text="Register",
                                     command=lambda:
                                     self.register(register_username_entry, register_password_entry))
-        register_button.pack(anchor='center', padx=10)
+        register_button.pack(anchor='center', padx=10, pady=10)
+        print(user_count)
+        user_count_register_label = tk.Label(register_frame, text=f"Current number of registered users: {user_count}")
+        user_count_register_label.pack(anchor='center', padx=10, pady=10)
 
         # Run the Tkinter main loop
         notebook.select(register_frame) if tab == "Register" else notebook.select(login_frame)
@@ -117,6 +125,9 @@ class DCM:
             messagebox.showerror("Error", "No more users can be registered")
             return
         else:
+            if ID == "" or password == "":
+                messagebox.showerror("Error", "User and Password string cannot be empty")
+                return
             for user in users:
                 if user[0] == ID:
                     messagebox.showerror("Error", "A user with this username already exists")
@@ -131,6 +142,58 @@ class DCM:
             writeToFile(f'Users/{ID}', user_file_data)
             setCurrentUser(ID)
             navigator.navigate_to_page("MainMenu")
+    
+    def delete_user(self, userID):
+        users = openFile('data/users')
+        for user in users:
+            if user[0] == userID:
+                print(user)
+                users.remove(user)
+                writeToFile('data/users', users)
+                break
+        self.close_confirm_delete_popup()
+        navigator.navigate_to_signin("MainMenu")
+        return
+    
+    def confirm_deletion_popup(self):
+        if self.__confirm_deletion_popup_open:
+            return
+
+        self.__confirm_deletion_popup_open = True
+        self.delete_popup = tk.Toplevel()
+        self.delete_popup.geometry("260x180")
+        self.delete_popup.title("Confirm Deletion")
+
+        warning_lbl = tk.Label(self.delete_popup, text="Warning: Are you sure you'd like to \n delete your account?")
+        warning_lbl.grid(row=0, column=0, columnspan=4, padx=20, pady=20, sticky='w')
+
+        button_font = ('Arial', 14)  # Font for the buttons
+
+        def on_enter(event):
+            event.widget.config(bg='lightblue')
+
+        # Function to change button color back to default
+        def on_leave(event):
+            event.widget.config(bg='SystemButtonFace')
+
+        yes_button = tk.Button(self.delete_popup, text="Yes", font=button_font,
+                               command=lambda: self.delete_user(getCurrentUser()))
+        yes_button.grid(row=1, column=1, pady=10)
+        yes_button.bind('<Enter>', on_enter)
+        yes_button.bind('<Leave>', on_leave)
+
+        no_button = tk.Button(self.delete_popup, text="No", font=button_font,
+                              command=self.close_confirm_delete_popup)
+        no_button.grid(row=1, column=2, pady=10)
+        no_button.bind('<Enter>', on_enter)
+        no_button.bind('<Leave>', on_leave)
+
+        # Bind the close button to the window close event to handle closing the popup
+        self.delete_popup.protocol("WM_DELETE_WINDOW", self.close_confirm_delete_popup)
+
+    def close_confirm_delete_popup(self):
+        self.__confirm_deletion_popup_open = False
+        self.delete_popup.destroy()
 
     def mainmenu(self):
         menu = tk.Frame(navigator.get_main_app())
@@ -159,6 +222,10 @@ class DCM:
         modes_frame.pack(pady=10, padx=10, fill="both")
         set_mode_frame.pack(pady=10)
         newpatient_btn.pack(pady=10)
+
+        delete_user_button = tk.Button(menu, text="Delete Account", command=lambda:
+                                   self.confirm_deletion_popup())
+        delete_user_button.pack(pady=10)
 
 
 window = tk.Tk()

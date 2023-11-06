@@ -1,5 +1,6 @@
 import tkinter as tk
 import datetime
+from utils.functions import openFile
 
 
 class MenuBar:
@@ -10,6 +11,8 @@ class MenuBar:
         self.__date_lbl = tk.Label(self.__menu_bar, text="DD/MM/YYYY 00:00:00")
         self.__setclockBtn = tk.Button(self.__menu_bar, text="Set Clock",
                                        command=lambda: self.SetClock())
+        self.__current_user = openFile('data/global')['CurrentUser']
+        self.__current_user_label = tk.Label(self.__menu_bar, text=f"Current User: {self.__current_user}", font=("Arial", 15))
         self.about = None  # container for pop up
         # Attributes for About() method
         self.__about_popup_open = False  # Flag variable to track if the About popup is open
@@ -25,11 +28,14 @@ class MenuBar:
         # About button in the top left corner
         self.__aboutBtn.grid(row=0, column=0, ipadx=10, sticky="w")
 
-        # Header with date and time at the top center
-        self.__date_lbl.grid(row=0, column=1)
+        self.__current_user_label.grid(row=0, column=1, ipadx=10)
 
         # Set Clock Button in the top right corner
         self.__setclockBtn.grid(row=0, column=2, ipadx=10, sticky="e")
+
+        # Header with date and time at the top center
+        self.__date_lbl.grid(row=1, column=1, ipady=15)
+
 
     def SetClock(self):
         date = datetime.datetime.now()
