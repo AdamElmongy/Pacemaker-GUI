@@ -26,7 +26,7 @@ class MenuBar:
         self.__menu_bar.columnconfigure(2, weight=1)
 
         # About button in the top left corner
-        self.__aboutBtn.grid(row=0, column=0, ipadx=10, sticky="w")
+        self.__aboutBtn.grid(row=0, column=0, ipadx=20, sticky="w")
 
         self.__current_user_label.grid(row=0, column=1, ipadx=10)
 

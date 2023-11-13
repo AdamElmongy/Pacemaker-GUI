@@ -3,6 +3,7 @@ from tkinter import ttk
 from utils.Navigation import navigator
 from tkinter import messagebox
 from utils.functions import openFile, writeToFile, setCurrentUser, getCurrentUser
+from tkintergraph import live_graph
 from Modes import Modes
 from MenuBar import MenuBar
 from SetMode import SetMode
@@ -17,6 +18,8 @@ class DCM:
         self.__root.geometry("%dx%d" % (width, height))
         self.__root.configure(bg='#FFFFFF')
         self.delete_popup = None
+        self.egram_popup = None
+        self.__confirm_egram_popup_open = False
         self.__confirm_deletion_popup_open = False
 
         navigator.set_main_app(self.__root)
@@ -45,7 +48,7 @@ class DCM:
         welcome_label.place(relx=.5, rely=.5, anchor="center")
 
         # After 5000 milliseconds (5 seconds), switch to the login/register page
-        welcome.after(5000, lambda: navigator.navigate_to_page("SignIn"))
+        welcome.after(500, lambda: navigator.navigate_to_page("SignIn"))
 
     def signin(self, tab=None):
         user_count = len(openFile('data/users'))
@@ -194,6 +197,23 @@ class DCM:
     def close_confirm_delete_popup(self):
         self.__confirm_deletion_popup_open = False
         self.delete_popup.destroy()
+    
+    def EgramPopUp(self):
+        if self.__confirm_egram_popup_open:
+            return
+
+        self.__confirm_egram_popup_open = True
+        self.egram_popup = tk.Toplevel()
+        self.egram_popup.geometry("750x750")
+        self.egram_popup.title("Egram")
+        live_graph(self.egram_popup)
+
+        # Bind the close button to the window close event to handle closing the popup
+        self.egram_popup.protocol("WM_DELETE_WINDOW", self.close_egram_popup)
+
+    def close_egram_popup(self):
+        self.__confirm_egram_popup_open = False
+        self.egram_popup.destroy()
 
     def mainmenu(self):
         menu = tk.Frame(navigator.get_main_app())
@@ -212,6 +232,11 @@ class DCM:
         newpatient_btn = tk.Button(menu, text="New Patient- return to Login",
                                    command=lambda:
                                    navigator.navigate_to_signin("MainMenu", "Register"))
+        
+                # New Patient button to return to login page
+        egram_btn = tk.Button(menu, text="View Egram",
+                                   command=lambda:
+                                   self.EgramPopUp())
 
         # Create frame for Set Mode
         set_mode_frame = tk.Frame(menu)
@@ -222,10 +247,12 @@ class DCM:
         modes_frame.pack(pady=10, padx=10, fill="both")
         set_mode_frame.pack(pady=10)
         newpatient_btn.pack(pady=10)
+        egram_btn.pack(pady=10)
 
         delete_user_button = tk.Button(menu, text="Delete Account", command=lambda:
                                    self.confirm_deletion_popup())
         delete_user_button.pack(pady=10)
+
 
 
 window = tk.Tk()
