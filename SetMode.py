@@ -10,6 +10,7 @@ class SetMode:
         self.__modes = ["AOO", "VOO", "AAI", "VVI"]
         self.interface()
 
+
     def interface(self):
         # set default selection to default mode
         self.__selection.set(self.__default_mode)
