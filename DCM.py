@@ -50,6 +50,12 @@ class DCM:
         # After 5000 milliseconds (5 seconds), switch to the login/register page
         welcome.after(500, lambda: navigator.navigate_to_page("SignIn"))
 
+    def center_content(self, frame):
+        frame.grid_rowconfigure(0, weight=1)
+        frame.grid_rowconfigure(2, weight=1)
+        frame.grid_columnconfigure(0, weight=1)
+        frame.grid_columnconfigure(2, weight=1)
+
     def signin(self, tab=None):
         user_count = len(openFile('data/users'))
         signin = tk.Frame(navigator.get_main_app(), bg='#000000')
@@ -74,7 +80,7 @@ class DCM:
         login_password_entry = tk.Entry(login_frame, show="*")
         login_password_entry.pack(anchor='center', padx=10)
         
-        login_button = tk.Button(login_frame, text="Login",
+        login_button = tk.Button(login_frame, text="Login", padx=10,
                                  command=lambda:
                                  self.login(login_username_entry, login_password_entry))
         login_button.pack(anchor='center', padx=10, pady=10)
@@ -106,7 +112,7 @@ class DCM:
 
         # Run the Tkinter main loop
         notebook.select(register_frame) if tab == "Register" else notebook.select(login_frame)
-        signin.pack(fill='both', expand=True)
+        signin.pack(side='top', fill='both', expand=True)
 
     def login(self, username, password):
         ID = username.get()
@@ -208,6 +214,9 @@ class DCM:
         self.egram_popup.title("Egram")
         live_graph(self.egram_popup)
 
+        x = self.__root.winfo_x()
+        y = self.__root.winfo_y()
+        self.egram_popup.geometry("+%d+%d" %(x+350,y+30))
         # Bind the close button to the window close event to handle closing the popup
         self.egram_popup.protocol("WM_DELETE_WINDOW", self.close_egram_popup)
 

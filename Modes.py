@@ -1,7 +1,7 @@
 import tkinter
 from tkinter import ttk
 from utils.functions import writeToFile, openFile, getCurrentUser
-from tkinter import messagebox
+from tkinter import messagebox, END
 
 
 class Modes:
@@ -34,18 +34,29 @@ class Modes:
 
         self.__notebook.pack(side='top', fill='both', expand=True)
 
-    def updatepar(self, mode, data, entryList):
+    def updatepar(self, mode, data, entryList, page):
         user = getCurrentUser()
         user_file_path = f"Users/{user}"
         user_data = openFile(user_file_path)
+        print(data)
         for i, entry in enumerate(data):
             try:
                 float(entryList[i].get())  # did the user enter a float?
             except ValueError:  # did not enter a number as digits
                 messagebox.showerror("Error", "Invalid entry for " + entry + ". Enter as number!")
             if data[entry][0] <= float(entryList[i].get()) <= data[entry][1]:  # check if valid parameter value
-                user_data['mode-values'][mode][entry] = float(entryList[i].get())  # store in file
-
+                if i == 3:
+                    try:
+                        int(entryList[i].get())  # did the user enter an integer?
+                        user_data['mode-values'][mode][entry] = float(entryList[i].get())  # store in file
+                    except ValueError:  # did not enter a number as an integer
+                        entryList[i].delete(0, END)
+                        entryList[i].insert(0, int(user_data['mode-values'][mode][entry]))
+                        messagebox.showerror("Error", "Invalid entry for " + entry + ". Enter as Integer!")
+                        
+                print(user_data['mode-values'][mode][entry])
+                
+                print(entryList[i].get())
             else:
                 messagebox.showerror("Error", f"Entry is out of range for {entry}.")
 
@@ -76,7 +87,7 @@ class Modes:
             par_lbl = tkinter.Label(page, text=f"Parameter: {entry}")
             par_lbl.grid(row=i, column=0, sticky="we", pady=2)
 
-            entry_list[i].insert(0, user_mode_data[entry])
+            entry_list[i].insert(0, int(user_mode_data[entry]) if i == 3 else user_mode_data[entry])
             entry_list[i].grid(row=i, column=1)
 
             value_range = str(data[entry][0]) + "-" + str(data[entry][1]) + data[entry][3]
@@ -86,7 +97,7 @@ class Modes:
         # Update File with the new parameter values
         updateBtn = tkinter.Button(page, text="Update " + mode + " parameters",
                                    command=lambda:
-                                   self.updatepar(mode, data, entry_list))
+                                   self.updatepar(mode, data, entry_list, page))
         updateBtn.grid(row=len(data) + 2, column=0, columnspan=3, pady=20, ipadx=100)
 
 
