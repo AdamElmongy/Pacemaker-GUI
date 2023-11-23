@@ -8,7 +8,7 @@ class SetMode:
         self.__frame = frame
         self.__selection = tk.StringVar()
         self.__default_mode = "AOO"
-        self.__modes = ["AOO", "VOO", "AAI", "VVI"]
+        self.__modes = ["AOO", "VOO", "AAI", "VVI", "AOOR", "VOOR", "AAIR", "VVIR"]
         self.interface()
 
 

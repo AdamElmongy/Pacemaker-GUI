@@ -33,7 +33,15 @@ class DCM:
             "AAI": {"LRL": 60, "URL": 120, "AAmp": 3.5, "APW": 0.4, "ARP": 250},
             "AOO": {"LRL": 60, "URL": 120, "AAmp": 3.5, "APW": 0.4},
             "VOO": {"LRL": 60, "URL": 120, "VAmp": 3.5, "VPW": 0.4},
-            "VVI": {"LRL": 60, "URL": 120, "VAmp": 3.5, "VPW": 0.4, "VRP": 320}
+            "VVI": {"LRL": 60, "URL": 120, "VAmp": 3.5, "VPW": 0.4, "VRP": 320},
+            "AAIR": {"LRL": 60, "URL": 120, "AAmp": 3.5, "APW": 0.4, "ARP": 250, 
+                     "Activity Threshold": 0, "Reaction Time": 30, "Response Factor": 8, "Recovery Time": 5},
+            "AOOR": {"LRL": 60, "URL": 120, "AAmp": 3.5, "APW": 0.4, 
+                     "Activity Threshold": 0, "Reaction Time": 30, "Response Factor": 8, "Recovery Time": 5},
+            "VOOR": {"LRL": 60, "URL": 120, "VAmp": 3.5, "VPW": 0.4, 
+                     "Activity Threshold": 0, "Reaction Time": 30, "Response Factor": 8, "Recovery Time": 5},
+            "VVIR": {"LRL": 60, "URL": 120, "VAmp": 3.5, "VPW": 0.4, "VRP": 320, 
+                     "Activity Threshold": 0, "Reaction Time": 30, "Response Factor": 8, "Recovery Time": 5},     
         }
 
         self.welcome()

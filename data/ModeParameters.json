@@ -24,6 +24,47 @@
         "VAmp": [0.1, 5, 3.5, "V"],
         "VPW": [1, 30, 0.4, "ms"],
         "VRP": [150, 500, 320, "ms"]
+    },
+    "AAIR": {
+        "LRL": [30, 175, 60, "ppm"],
+        "URL": [50, 175, 120, "ppm"],
+        "AAmp": [0.1, 5, 3.5, "V"],
+        "APW": [1, 30, 0.4, "ms"],
+        "ARP": [150, 500, 250, "ms"],
+        "Activity Threshold": [0, 0, 0, "ms"], 
+        "Reaction Time": [10, 50, 30, "s"], 
+        "Response Factor": [1, 16, 8, ""], 
+        "Recovery Time": [2, 16, 5, "min"]
+    },
+    "AOOR": {
+        "LRL": [30, 175, 60, "ppm"],
+        "URL": [50, 175, 120, "ppm"],
+        "AAmp": [0.1, 5, 3.5, "V"],
+        "APW": [1, 30, 0.4, "ms"],
+        "Activity Threshold": [0, 0, 0, "ms"], 
+        "Reaction Time": [10, 50, 30, "s"], 
+        "Response Factor": [1, 16, 8, ""], 
+        "Recovery Time": [2, 16, 5, "min"]
+    },
+    "VOOR": {
+        "LRL": [30, 175, 60, "ppm"],
+        "URL": [50, 175, 120, "ppm"],
+        "VAmp": [0.1, 5, 3.5, "V"],
+        "VPW": [1, 30, 0.4, "ms"],
+        "Activity Threshold": [0, 0, 0, "ms"], 
+        "Reaction Time": [10, 50, 30, "s"], 
+        "Response Factor": [1, 16, 8, ""], 
+        "Recovery Time": [2, 16, 5, "min"]
+    },
+    "VVIR": {
+        "LRL": [30, 175, 60, "ppm"],
+        "URL": [50, 175, 120, "ppm"],
+        "VAmp": [0.1, 5, 3.5, "V"],
+        "VPW": [1, 30, 0.4, "ms"],
+        "VRP": [150, 500, 320, "ms"],
+        "Activity Threshold": [0, 0, 0, "ms"], 
+        "Reaction Time": [10, 50, 30, "s"], 
+        "Response Factor": [1, 16, 8, ""], 
+        "Recovery Time": [2, 16, 5, "min"]
     }
-
 }
