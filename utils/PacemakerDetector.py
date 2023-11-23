@@ -90,19 +90,19 @@ import os
 
 def check_file_in_d_drive():
     # Define the file name and path
-    file_name = "FlashInfo.txt"
+    file_names = ["FlashInfo.txt", "Board.html", "Segger.html"]
     d_drive_path = "D:\\"
 
     # Construct the full path
-    file_path = os.path.join(d_drive_path, file_name)
+    files = {file_name: os.path.join(d_drive_path, file_name) for file_name in file_names}
 
     # Check if the file exists
-    if os.path.exists(file_path):
-        print(f"The file {file_name} exists in the D: drive.")
-        return True
-    else:
-        print(f"The file {file_name} does not exist in the D: drive.")
-        return False
+    for file_name, file_path in files.items():
+        if not os.path.exists(file_path):
+            print(f"The file {file_name} does not exist in the D: drive.")
+            return False
+        
+    return True
 
 
 def check_usb_device():

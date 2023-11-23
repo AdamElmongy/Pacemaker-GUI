@@ -9,7 +9,7 @@ class Modes:
     def __init__(self, root):
         self.__root = root
         self.__notebook = ttk.Notebook(root)
-        self.__max_par = 5
+        self.__max_par = 9
         self.createTabs()
 
     def createTabs(self):
@@ -19,6 +19,10 @@ class Modes:
         VOO_frame = tkinter.Frame(self.__notebook)
         AAI_frame = tkinter.Frame(self.__notebook)
         VVI_frame = tkinter.Frame(self.__notebook)
+        AOOR_frame = tkinter.Frame(self.__notebook)
+        VOOR_frame = tkinter.Frame(self.__notebook)
+        AAIR_frame = tkinter.Frame(self.__notebook)
+        VVIR_frame = tkinter.Frame(self.__notebook)
 
         self.__notebook.add(AOO_frame, text='AOO')
         self.modePage("AOO", AOO_frame)
@@ -31,6 +35,18 @@ class Modes:
 
         self.__notebook.add(VVI_frame, text='VVI')
         self.modePage("VVI", VVI_frame)
+
+        self.__notebook.add(AOOR_frame, text='AOOR')
+        self.modePage("AOOR", AOOR_frame)
+
+        self.__notebook.add(VOOR_frame, text='VOOR')
+        self.modePage("VOOR", VOOR_frame)
+
+        self.__notebook.add(AAIR_frame, text='AAIR')
+        self.modePage("AAIR", AAIR_frame)
+
+        self.__notebook.add(VVIR_frame, text='VVIR')
+        self.modePage("VVIR", VVIR_frame)
 
         self.__notebook.pack(side='top', fill='both', expand=True)
 
@@ -86,7 +102,7 @@ class Modes:
         for i, entry in enumerate(data):  # for every parameter for the mode
             par_lbl = tkinter.Label(page, text=f"Parameter: {entry}")
             par_lbl.grid(row=i, column=0, sticky="we", pady=2)
-
+            print(user_mode_data[entry])
             entry_list[i].insert(0, int(user_mode_data[entry]) if i == 3 else user_mode_data[entry])
             entry_list[i].grid(row=i, column=1)
 
