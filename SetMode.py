@@ -1,6 +1,6 @@
 import tkinter as tk
 from utils.functions import writeToFile, openFile, getCurrentUser
-from SerialComm import send
+from SerialComm import SerialComm
 
 
 class SetMode:
@@ -32,16 +32,24 @@ class SetMode:
         mode = self.__selection.get()
         user_file_path = f"Users/{user}"
         user_mode_data = openFile(user_file_path)['mode-values'][mode]
-
-        data = [mode]
+        data = [self.enumerate_mode(mode)]
         for i in user_mode_data:
             data.append(user_mode_data[i])
 
         writeToFile('data/send', data)
 
         print("sending "+str(data)+" to pacemaker")
-        send()
+        SerialComm(data)
         return
+
+    def enumerate_mode(self, mode_str):
+        num = 1
+        for m in self.__modes:
+            if m == mode_str:
+               break
+            else:
+                num += 1
+        return num
 
 
 # def SetMode(frame):
