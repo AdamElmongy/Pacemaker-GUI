@@ -1,5 +1,6 @@
 import tkinter as tk
 from utils.functions import writeToFile, openFile, getCurrentUser
+from SerialComm import send
 
 
 class SetMode:
@@ -39,6 +40,7 @@ class SetMode:
         writeToFile('data/send', data)
 
         print("sending "+str(data)+" to pacemaker")
+        send()
         return
 
 
