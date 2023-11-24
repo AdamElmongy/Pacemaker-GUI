@@ -33,13 +33,14 @@ class SetMode:
         user_file_path = f"Users/{user}"
         user_mode_data = openFile(user_file_path)['mode-values'][mode]
         data = [self.enumerate_mode(mode)]
-        for i in user_mode_data:
-            data.append(user_mode_data[i])
-
+        parameters = ["Mode"]
         writeToFile('data/send', data)
-
+        for key, i in user_mode_data.items():
+            print(key, i)
+            data.append(i)
+            parameters.append(key)
         print("sending "+str(data)+" to pacemaker")
-        SerialComm(data)
+        SerialComm(data, parameters)
         return
 
     def enumerate_mode(self, mode_str):
