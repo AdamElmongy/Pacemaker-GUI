@@ -8,13 +8,12 @@ class SerialComm:
         self.__endian = "<"  # little endian
         self.__data = data
         self.__parameters = parameters
-        self.__totalnumpar =
         # see endian string format here: https://docs.python.org/3/library/struct.html
         self.send()
 
     def send(self):
-        SYNC = 16
-        FN_CODE = 55
+        SYNC = 0x16
+        FN_CODE = 0x55
         self.__data = self.generate_data()
         self.__data.insert(0, SYNC)
         self.__data.insert(1, FN_CODE)
@@ -39,9 +38,14 @@ class SerialComm:
                        "VPW","APW","VRP","ARP","Reaction Time",
                        "Response Factor","Recovery Time","MSR",
                        "Rate Smoothing","Activity Threshold"]
-        for i in param_order:
+        d = 0
+        full_data = [0] * len(param_order)
+        for index in range(len(full_data)):
             for j in self.__parameters:
-
-        return data_list
+                if param_order[index] == j:
+                    full_data[index] = self.__data[d]
+                    d += 1
+                    break
+        return full_data
 
 
