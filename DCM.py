@@ -1,3 +1,4 @@
+import os
 import tkinter as tk
 from tkinter import ttk
 from utils.Navigation import navigator
@@ -161,6 +162,7 @@ class DCM:
             navigator.navigate_to_page("MainMenu")
     
     def delete_user(self, userID):
+        users_path = os.path.join(os.getcwd(), "Users")
         users = openFile('data/users')
         for user in users:
             if user[0] == userID:
@@ -168,6 +170,7 @@ class DCM:
                 users.remove(user)
                 writeToFile('data/users', users)
                 break
+        os.remove(f'{users_path}/{userID}.json')
         self.close_confirm_delete_popup()
         navigator.navigate_to_signin("MainMenu")
         return
