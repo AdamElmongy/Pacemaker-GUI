@@ -19,25 +19,24 @@ class SerialComm:
         self.__data.insert(1, FN_CODE)
 
         format_str = self.generate_format()
-
         print(format_str)
         packed_data = struct.pack(format_str, *self.__data)
 
-        # ser = serial.Serial(self.__COM, self.__baudrate)  # open serial port
-        # ser.write(packed_data)
-        # ser.close()
+        ser = serial.Serial(self.__COM, self.__baudrate)  # open serial port
+        ser.write(packed_data)
+        ser.close()
 
     def generate_format(self):
         endian = self.__endian
-        format_str = "BBBBffffHHBBBBBB"
-        string = endian + format_str
+        format_str = "BBBffffHHBBBBB"
+        string = endian + "BB" + format_str
         return string
 
     def generate_data(self):
         param_order = ["Mode","LRL", "URL","VAmp","AAmp",
                        "VPW","APW","VRP","ARP","Reaction Time",
-                       "Response Factor","Recovery Time","MSR",
-                       "Rate Smoothing","Activity Threshold"]
+                       "Response Factor","Recovery Time","MSR"
+                       ,"Activity Threshold"]
         d = 0
         full_data = [0] * len(param_order)
         for index in range(len(full_data)):
