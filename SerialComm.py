@@ -25,6 +25,7 @@ class SerialComm:
         ser = serial.Serial(self.__COM, self.__baudrate)  # open serial port
         ser.write(packed_data)
         ser.close()
+        # Need a way to check that the communication was successful
 
     def generate_format(self):
         endian = self.__endian
