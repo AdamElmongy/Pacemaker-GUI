@@ -43,3 +43,9 @@ def live_graph(root):
     
     # Start updating the graph
     update_graph()
+
+#
+# root = tk.Tk()
+# root.geometry("500x500")
+# live_graph(root)
+# root.mainloop()
