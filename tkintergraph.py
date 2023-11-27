@@ -1,5 +1,6 @@
 import tkinter as tk
 import matplotlib.pyplot as plt
+from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.backends.backend_tkagg import NavigationToolbar2Tk as NavigationToolbar
 import numpy as np
@@ -62,17 +63,22 @@ class EGRAM:
 
         # Start updating the graph
         update_graph()
-
-    def start_ATR(self, signal_type):
-        # Tell simulink to start sending back egram data
+    def initiate_egram_sending(self):
         SYNC = 0x33  # this tells simulink to enter send_egram
-        packed_data_send = struct.pack("<B", SYNC)
+        data = [0]*29
+        data[0] = SYNC
+        str = "<"
+        for i in range(len(data)):
+            str = str + "B"
+        packed_data_send = struct.pack(str, *data)
         ser = serial.Serial("COM3", 115200, timeout=1)  # open serial port
         ser.reset_input_buffer()
         ser.reset_output_buffer()
         ser.write(packed_data_send)
         ser.close()
-
+    def start_ATR(self, signal_type):
+        # Tell simulink to start sending back egram data
+        self.initiate_egram_sending()
         # Read the data that is being sent back from simulink
         start_time = time.time()
         self.read_egram(start_time)
@@ -86,17 +92,21 @@ class EGRAM:
             proper_data = False
             while proper_data == False:
                 ser.reset_input_buffer()
-                read_byte = ser.read(16)
+                read_byte = ser.read(8)
                 if read_byte == b'':  # held in reading
                     ser.close()  # close and reopen
                     print(str(read_byte) + "cannot read")
                     return self.read_egram(start_time)
 
-                egram_data = struct.unpack("<dd", read_byte)
-                if 0 <= egram_data[0] <= 1 and 0 <= egram_data[1] <= 1:
+                egram_data = struct.unpack("<d", read_byte)
+                print(egram_data)
+                if 0.5 < egram_data[0] < 2:
                     proper_data = True
                     print("good: "+ str (egram_data))
                     self.store_data(egram_data, time.time()-start_time)
+                    ser.close()
+                    self.initiate_egram_sending()
+                    ser = serial.Serial("COM3", 115200, timeout=1)  # open serial port
                 if time.time()-start_time > 10:
                     print("timed out")
                     break
@@ -110,16 +120,16 @@ class EGRAM:
 
     def plot_egram(self, signal_type):
         plot_frame = tk.Frame(self.__root)
-        plot_frame.pack(pady= 20)
+        plot_frame.pack(pady=20)
         x = self.__x_time
         y = [0] * len(x)
         if signal_type == "A":
             y = self.__ATR_data
         elif signal_type == "V":
             y = self.__VENT_data
-        fig, ax = plt.subplots()
-        ax.scatter(x, y)
-
+        fig = Figure(figsize=(6,4))
+        ax = fig.add_subplot(111)
+        ax.plot(x,y)
         ax.set_title("Egram Live Graph")
         ax.set_xlabel("Time")
         ax.set_ylabel("Pulse")

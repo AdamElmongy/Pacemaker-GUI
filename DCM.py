@@ -7,7 +7,7 @@ from tkinter import messagebox
 from utils.functions import openFile, writeToFile, setCurrentUser, getCurrentUser
 from utils.PacemakerDetector import check_usb_device
 from tkintergraph import EGRAM
-from temporary_graph import live_graph
+# from temporary_graph import live_graph
 from Modes import Modes
 from MenuBar import MenuBar
 from SetMode import SetMode
@@ -255,8 +255,8 @@ class DCM:
         self.egram_popup = tk.Toplevel()
         self.egram_popup.geometry("750x750")
         self.egram_popup.title("Egram")
-        # EGRAM(self.egram_popup)
-        live_graph(self.egram_popup)
+        EGRAM(self.egram_popup)
+        #live_graph(self.egram_popup)
 
         x = self.__root.winfo_x()
         y = self.__root.winfo_y()
