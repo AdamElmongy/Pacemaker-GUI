@@ -66,6 +66,7 @@ class DCM:
 
         if elapsed_time >= self.timeout_duration:
             self.last_activity_time = time.time()
+            messagebox.showerror("Timeout Error", "You've been time out due to inactivity. Please login again.")
             navigator.navigate_to_page("SignIn")
 
         self.__root.after(1000, self.check_timeout)  # Check every 1000 milliseconds (1 second)
