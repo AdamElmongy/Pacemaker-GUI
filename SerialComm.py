@@ -1,5 +1,7 @@
 import serial
 import struct
+from utils.PacemakerDetector import check_usb_device
+from tkinter import messagebox
 
 class SerialComm:
     def __init__(self,data):
@@ -20,9 +22,12 @@ class SerialComm:
         print(format_str)
         packed_data = struct.pack(format_str, *self.__data)
 
-        ser = serial.Serial(self.__COM, self.__baudrate)  # open serial port
-        ser.write(packed_data)
-        ser.close()
+        if (check_usb_device()):
+            ser = serial.Serial(self.__COM, self.__baudrate)  # open serial port
+            ser.write(packed_data)
+            ser.close()
+        else: 
+            messagebox.showerror("Error", "Can't configure pacemaker because no device is detected.")
 
     def generate_format(self):
         string = self.__endian
