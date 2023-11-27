@@ -4,7 +4,8 @@ from tkinter import ttk
 from utils.Navigation import navigator
 from tkinter import messagebox
 from utils.functions import openFile, writeToFile, setCurrentUser, getCurrentUser
-from tkintergraph import live_graph
+from tkintergraph import EGRAM
+from temporary_graph import live_graph
 from Modes import Modes
 from MenuBar import MenuBar
 from SetMode import SetMode
@@ -35,14 +36,14 @@ class DCM:
             "AOO": {"LRL": 60, "URL": 120, "AAmp": 3.5, "APW": 0.4},
             "VOO": {"LRL": 60, "URL": 120, "VAmp": 3.5, "VPW": 0.4},
             "VVI": {"LRL": 60, "URL": 120, "VAmp": 3.5, "VPW": 0.4, "VRP": 320},
-            "AAIR": {"LRL": 60, "URL": 120, "AAmp": 3.5, "APW": 0.4, "ARP": 250, 
-                     "Activity Threshold": 0, "Reaction Time": 30, "Response Factor": 8, "Recovery Time": 5},
-            "AOOR": {"LRL": 60, "URL": 120, "AAmp": 3.5, "APW": 0.4, 
-                     "Activity Threshold": 0, "Reaction Time": 30, "Response Factor": 8, "Recovery Time": 5},
-            "VOOR": {"LRL": 60, "URL": 120, "VAmp": 3.5, "VPW": 0.4, 
-                     "Activity Threshold": 0, "Reaction Time": 30, "Response Factor": 8, "Recovery Time": 5},
-            "VVIR": {"LRL": 60, "URL": 120, "VAmp": 3.5, "VPW": 0.4, "VRP": 320, 
-                     "Activity Threshold": 0, "Reaction Time": 30, "Response Factor": 8, "Recovery Time": 5},     
+            "AAIR": {"LRL": 60, "URL": 120, "AAmp": 3.5, "APW": 0.4, "ARP": 250,
+                     "Reaction Time": 30, "Response Factor": 8, "Recovery Time": 5, "MSR": 120},
+            "AOOR": {"LRL": 60, "URL": 120, "AAmp": 3.5, "APW": 0.4,
+                     "Reaction Time": 30, "Response Factor": 8, "Recovery Time": 5, "MSR": 120},
+            "VOOR": {"LRL": 60, "URL": 120, "VAmp": 3.5, "VPW": 0.4,
+                     "Reaction Time": 30, "Response Factor": 8, "Recovery Time": 5, "MSR": 120},
+            "VVIR": {"LRL": 60, "URL": 120, "VAmp": 3.5, "VPW": 0.4, "VRP": 320,
+                     "Reaction Time": 30, "Response Factor": 8, "Recovery Time": 5, "MSR": 120},
         }
 
         self.welcome()
@@ -88,7 +89,7 @@ class DCM:
         login_password_label.pack(anchor='center', padx=10)
         login_password_entry = tk.Entry(login_frame, show="*")
         login_password_entry.pack(anchor='center', padx=10)
-        
+
         login_button = tk.Button(login_frame, text="Login", padx=10,
                                  command=lambda:
                                  self.login(login_username_entry, login_password_entry))
@@ -160,7 +161,7 @@ class DCM:
             writeToFile(f'Users/{ID}', user_file_data)
             setCurrentUser(ID)
             navigator.navigate_to_page("MainMenu")
-    
+
     def delete_user(self, userID):
         users_path = os.path.join(os.getcwd(), "Users")
         users = openFile('data/users')
@@ -174,7 +175,7 @@ class DCM:
         self.close_confirm_delete_popup()
         navigator.navigate_to_signin("MainMenu")
         return
-    
+
     def confirm_deletion_popup(self):
         if self.__confirm_deletion_popup_open:
             return
@@ -214,7 +215,7 @@ class DCM:
     def close_confirm_delete_popup(self):
         self.__confirm_deletion_popup_open = False
         self.delete_popup.destroy()
-    
+
     def EgramPopUp(self):
         if self.__confirm_egram_popup_open:
             return
@@ -223,11 +224,12 @@ class DCM:
         self.egram_popup = tk.Toplevel()
         self.egram_popup.geometry("750x750")
         self.egram_popup.title("Egram")
+        # EGRAM(self.egram_popup)
         live_graph(self.egram_popup)
 
         x = self.__root.winfo_x()
         y = self.__root.winfo_y()
-        self.egram_popup.geometry("+%d+%d" %(x+350,y+30))
+        self.egram_popup.geometry("+%d+%d" % (x + 350, y + 30))
         # Bind the close button to the window close event to handle closing the popup
         self.egram_popup.protocol("WM_DELETE_WINDOW", self.close_egram_popup)
 
@@ -252,11 +254,11 @@ class DCM:
         newpatient_btn = tk.Button(menu, text="New Patient- return to Login",
                                    command=lambda:
                                    navigator.navigate_to_signin("MainMenu", "Register"))
-        
-                # New Patient button to return to login page
+
+        # New Patient button to return to login page
         egram_btn = tk.Button(menu, text="View Egram",
-                                   command=lambda:
-                                   self.EgramPopUp())
+                              command=lambda:
+                              self.EgramPopUp())
 
         # Create frame for Set Mode
         set_mode_frame = tk.Frame(menu)
@@ -270,9 +272,8 @@ class DCM:
         egram_btn.pack(pady=10)
 
         delete_user_button = tk.Button(menu, text="Delete Account", command=lambda:
-                                   self.confirm_deletion_popup())
+        self.confirm_deletion_popup())
         delete_user_button.pack(pady=10)
-
 
 
 window = tk.Tk()
