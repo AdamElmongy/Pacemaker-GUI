@@ -23,6 +23,10 @@ class EGRAM:
         ATR_button = tk.Button(self.__root, text="Show ATR EGRAM",
                                command = lambda: self.start_ATR("A"))
         ATR_button.pack(pady = 20)
+        VENT_button = tk.Button(self.__root, text="Show VENT EGRAM",
+                              command=lambda: self.start_ATR("V"))
+        ATR_button.pack(pady=20)
+        VENT_button.pack(pady=20)
         graph_frame.pack(pady = 20)
         # self.live_graph(graph_frame)
     def live_graph(self, root):
