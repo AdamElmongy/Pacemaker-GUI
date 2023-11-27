@@ -39,6 +39,7 @@ class SetMode:
             print(key, i)
             data.append(i)
             parameters.append(key)
+        print("data: " + str(data) +", params: " + str(parameters))
         print("sending "+str(data)+" to pacemaker")
         SerialComm(data, parameters)
         return

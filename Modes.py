@@ -61,15 +61,16 @@ class Modes:
             except ValueError:  # did not enter a number as digits
                 messagebox.showerror("Error", "Invalid entry for " + entry + ". Enter as number!")
             if data[entry][0] <= float(entryList[i].get()) <= data[entry][1]:  # check if valid parameter value
-                if i == 3:
+                if data[entry][4] == "B":
                     try:
                         int(entryList[i].get())  # did the user enter an integer?
-                        user_data['mode-values'][mode][entry] = float(entryList[i].get())  # store in file
+                        user_data['mode-values'][mode][entry] = int(entryList[i].get())  # store in file
                     except ValueError:  # did not enter a number as an integer
                         entryList[i].delete(0, END)
                         entryList[i].insert(0, int(user_data['mode-values'][mode][entry]))
                         messagebox.showerror("Error", "Invalid entry for " + entry + ". Enter as Integer!")
-                        
+                else:
+                    user_data['mode-values'][mode][entry] = float(entryList[i].get())
                 print(user_data['mode-values'][mode][entry])
                 
                 print(entryList[i].get())
@@ -103,7 +104,7 @@ class Modes:
             par_lbl = tkinter.Label(page, text=f"Parameter: {entry}")
             par_lbl.grid(row=i, column=0, sticky="we", pady=2)
             print(user_mode_data[entry])
-            entry_list[i].insert(0, int(user_mode_data[entry]) if i == 3 else user_mode_data[entry])
+            entry_list[i].insert(0, int(user_mode_data[entry]) if data[entry][4] == "B" else user_mode_data[entry])
             entry_list[i].grid(row=i, column=1)
 
             value_range = str(data[entry][0]) + "-" + str(data[entry][1]) + data[entry][3]

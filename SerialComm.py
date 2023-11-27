@@ -19,18 +19,21 @@ class SerialComm:
         self.__data.insert(1, GO_AHEAD)
 
         format_str = self.generate_format()
-        print(format_str)
-        packed_data = struct.pack(format_str, *self.__data)
+        data_send = self.__data
+        print(format_str, self.__data)
+        packed_data = struct.pack(format_str, *data_send)
 
         ser = serial.Serial(self.__COM, self.__baudrate)  # open serial port
         ser.reset_input_buffer()
         ser.reset_output_buffer()
         ser.write(packed_data)
         ser.close()
+        print("sent")
 
         # check that the parameters sent properly
         # First read back the data that was sent from simulink
         matched = self.check_param(time.time())
+        print("check complete" + str(matched))
         # If the data from simulink matches the data that was originally sent then set GO_AHEAD to true (0x22)
         if matched == True:
             GO_AHEAD = 0x22  # True
@@ -45,6 +48,7 @@ class SerialComm:
             # display to the user that sending failed
 
     def check_param(self, time_called):
+        print("checking parameters")
         start_time = time_called
         ser = serial.Serial("COM3", 115200, timeout=1)  # open serial port
         compare_list = self.__data
@@ -53,20 +57,22 @@ class SerialComm:
         while success == False:
             matched = True
             ser.reset_input_buffer()
-            read_byte = ser.read(28)
+            read_byte = ser.read(27)
             if read_byte == b'':
                 ser.close()
                 print(str(read_byte) + "cannot read")
                 return self.check_param(start_time)
 
-            retrieved_data = struct.unpack("<BBBffffHHBBBBB", read_byte)
+            retrieved_data = struct.unpack("<BBBffffHHBBBB", read_byte)
             print(retrieved_data)
 
             for i in range(len(retrieved_data)):
                 if retrieved_data[i] != compare_list[i+2]:
-                    print(retrieved_data[i], compare_list[i+2])
-                    matched = False
-                    break
+                    if (abs(retrieved_data[i] - compare_list[i + 2])) > 0.01:
+                        print(retrieved_data[i], compare_list[i+2])
+                        print(type(retrieved_data[i]), type(compare_list[i + 2]))
+                        matched = False
+                        break
 
             if matched == True:
                 success = True
@@ -82,15 +88,14 @@ class SerialComm:
 
     def generate_format(self):
         endian = self.__endian
-        format_str = "BBBffffHHBBBBB"
+        format_str = "BBBffffHHBBBB"
         string = endian + "BB" + format_str
         return string
 
     def generate_data(self):
         param_order = ["Mode","LRL", "URL","VAmp","AAmp",
                        "VPW","APW","VRP","ARP","Reaction Time",
-                       "Response Factor","Recovery Time","MSR"
-                       ,"Activity Threshold"]
+                       "Response Factor","Recovery Time","MSR"]
         d = 0
         full_data = [0] * len(param_order)
         for index in range(len(full_data)):
