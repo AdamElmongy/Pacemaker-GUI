@@ -23,7 +23,7 @@ class DCM:
         self.__root.configure(bg='#FFFFFF')
         self.delete_popup = None
         self.egram_popup = None
-        self.timeout_duration = 5 * 2
+        self.timeout_duration = 5 * 60
         self.last_activity_time = time.time()
         self.__confirm_egram_popup_open = False
         self.__confirm_deletion_popup_open = False
