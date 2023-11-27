@@ -51,15 +51,47 @@ class Modes:
         self.__notebook.pack(side='top', fill='both', expand=True)
 
     def updatepar(self, mode, data, entryList, page):
+        New_Modes = ["AAIR", "AOOR", "AAIR", "AOOR"]
         user = getCurrentUser()
         user_file_path = f"Users/{user}"
         user_data = openFile(user_file_path)
         print(data)
+        for i in range(len(entryList)):
+            print("h")
+            print(entryList[i].get())
         for i, entry in enumerate(data):
             try:
                 float(entryList[i].get())  # did the user enter a float?
             except ValueError:  # did not enter a number as digits
                 messagebox.showerror("Error", "Invalid entry for " + entry + ". Enter as number!")
+            # print("z")
+            # print(entryList[-2].get())
+            # print(entryList[0].get())
+            # print(entryList[-5].get())
+            # print((float(entryList[-2].get()) - float(entryList[0].get())) / float(entryList[-5].get()) <= float(7))
+            if not float(entryList[0].get()) < float(entryList[1].get()):
+                entryList[0].delete(0, END)
+                entryList[0].insert(0, int(user_data['mode-values'][mode]["LRL"]))
+                entryList[1].delete(0, END)
+                entryList[1].insert(0, int(user_data['mode-values'][mode]["URL"]))
+                messagebox.showerror("Error", "Invalid entry: LRL value must be less than URL!")
+                return
+            elif mode in New_Modes and not float(entryList[0].get()) < float(entryList[-2].get()):
+                entryList[0].delete(0, END)
+                entryList[0].insert(0, int(user_data['mode-values'][mode]["LRL"]))
+                entryList[-2].delete(0, END)
+                entryList[-2].insert(0, int(user_data['mode-values'][mode]["MSR"]))
+                messagebox.showerror("Error", "Invalid entry: LRL value must be less than MSR!")
+                return
+            elif mode in New_Modes and not ((float(entryList[-2].get()) - float(entryList[0].get())) / float(entryList[-5].get()) <= 7):
+                entryList[0].delete(0, END)
+                entryList[0].insert(0, int(user_data['mode-values'][mode]["LRL"]))
+                entryList[-2].delete(0, END)
+                entryList[-2].insert(0, int(user_data['mode-values'][mode]["MSR"]))
+                messagebox.showerror(
+                    "Error", "Invalid entry: Parameters cause unsafe pacing conditions. Increase the reaction time or LRL or decrease the MSR to resolve this issue.")
+                return
+
             if data[entry][0] <= float(entryList[i].get()) <= data[entry][1]:  # check if valid parameter value
                 if data[entry][4] == "B":
                     try:
