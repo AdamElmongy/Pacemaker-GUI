@@ -1,7 +1,7 @@
 import os
 import tkinter as tk
 from tkinter import ttk
-from time import sleep
+import time
 from utils.Navigation import navigator
 from tkinter import messagebox
 from utils.functions import openFile, writeToFile, setCurrentUser, getCurrentUser
@@ -23,8 +23,15 @@ class DCM:
         self.__root.configure(bg='#FFFFFF')
         self.delete_popup = None
         self.egram_popup = None
+        self.timeout_duration = 5 * 2
+        self.last_activity_time = time.time()
         self.__confirm_egram_popup_open = False
         self.__confirm_deletion_popup_open = False
+
+        self.__root.bind("<Key>", self.reset_timeout)
+        self.__root.bind("<Motion>", self.reset_timeout)
+
+        self.check_timeout()
 
         navigator.set_main_app(self.__root)
         navigator.set_current_frame(self.__root)
@@ -51,17 +58,30 @@ class DCM:
 
         self.welcome()
 
+    def reset_timeout(self, event):
+        self.last_activity_time = time.time()
+
+    def check_timeout(self):
+        elapsed_time = time.time() - self.last_activity_time
+
+        if elapsed_time >= self.timeout_duration:
+            self.last_activity_time = time.time()
+            navigator.navigate_to_page("SignIn")
+
+        self.__root.after(1000, self.check_timeout)  # Check every 1000 milliseconds (1 second)
+
+
     def welcome(self):
         welcome = tk.Frame(self.__root, bg='#000000')
         welcome.pack(fill='both', expand=True)
         navigator.set_current_frame(welcome)
 
-        welcome_label = tk.Label(welcome, text="Welcome to the Pacemaker", font=("Arial", 25), bg='#000000',
+        welcome_label = tk.Label(welcome, text="Welcome to the Pacemaker DCM", font=("Arial", 25), bg='#000000',
                                  fg='#FFFFFF')
         welcome_label.place(relx=.5, rely=.5, anchor="center")
 
         # After 5000 milliseconds (5 seconds), switch to the login/register page
-        welcome.after(500, lambda: navigator.navigate_to_page("SignIn"))
+        welcome.after(2500, lambda: navigator.navigate_to_page("SignIn"))
 
     def center_content(self, frame):
         frame.grid_rowconfigure(0, weight=1)
@@ -161,7 +181,7 @@ class DCM:
         for user in users:
             if ID == user[0] and key == user[1]:
                 setCurrentUser(ID)
-                navigator.navigate_to_page("MainMenu")
+                navigator.navigate_to_page("Connect")
                 return
         messagebox.showerror("Error", "Invalid username or password")
 
