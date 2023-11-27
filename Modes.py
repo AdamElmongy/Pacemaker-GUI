@@ -69,8 +69,11 @@ class Modes:
                         entryList[i].delete(0, END)
                         entryList[i].insert(0, int(user_data['mode-values'][mode][entry]))
                         messagebox.showerror("Error", "Invalid entry for " + entry + ". Enter as Integer!")
+                elif data[entry][4] == "f" and float(entryList[i].get()) < 1:
+                    user_data['mode-values'][mode][entry] = float(entryList[i].get())
                 else:
                     user_data['mode-values'][mode][entry] = float(entryList[i].get())
+
                 print(user_data['mode-values'][mode][entry])
                 
                 print(entryList[i].get())
