@@ -93,7 +93,7 @@ class Modes:
                 return
 
             if data[entry][0] <= float(entryList[i].get()) <= data[entry][1]:  # check if valid parameter value
-                if data[entry][4] == "B":
+                if data[entry][4] == "B" or data[entry][4] == "H":
                     try:
                         int(entryList[i].get())  # did the user enter an integer?
                         user_data['mode-values'][mode][entry] = int(entryList[i].get())  # store in file

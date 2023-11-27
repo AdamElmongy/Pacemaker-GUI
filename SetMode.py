@@ -19,7 +19,7 @@ class SetMode:
         # Labels, Drop down menu and Configure button
         set_lbl = tk.Label(self.__frame, text="Select a mode:")
         drop = tk.OptionMenu(self.__frame, self.__selection, *self.__modes)  # * for every string in []
-        complete_btn = tk.Button(self.__frame, text="Configure Pacemaker", bg="light blue",
+        complete_btn = tk.Button(self.__frame, text="Configure Pacemaker (double click)", bg="light blue",
                                  command=lambda: self.SaveParameters())
 
         # Layout on the frame

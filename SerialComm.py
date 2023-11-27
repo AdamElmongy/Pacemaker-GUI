@@ -27,7 +27,7 @@ class SerialComm:
         packed_data = struct.pack(format_str, *data_send)
 
         # if (check_usb_device()):
-        ser = serial.Serial(self.__COM, self.__baudrate)  # open serial port
+        ser = serial.Serial(self.__COM, self.__baudrate, timeout=1)  # open serial port
         ser.reset_input_buffer()
         ser.reset_output_buffer()
         ser.write(packed_data)
@@ -36,6 +36,14 @@ class SerialComm:
 
         # check that the parameters sent properly
         # First read back the data that was sent from simulink
+        matched = self.check_param(time.time())
+
+        time.sleep(3)
+        ser = serial.Serial(self.__COM, self.__baudrate, timeout=1)  # open serial port
+        ser.reset_input_buffer()
+        ser.reset_output_buffer()
+        ser.write(packed_data)
+        ser.close()
         matched = self.check_param(time.time())
         print("check complete" + str(matched))
         # If the data from simulink matches the data that was originally sent then set GO_AHEAD to true (0x22)
