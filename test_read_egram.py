@@ -7,6 +7,7 @@ def read_egram(start_time):
     start = start_time
     success = False
     ser = serial.Serial("COM3", 115200, timeout=1)  # open serial port
+    print("reading")
     while success == False:
         ser.reset_input_buffer()
         read_byte = ser.read(8)
@@ -16,7 +17,7 @@ def read_egram(start_time):
             return read_egram(start)
 
         retrieved_data = struct.unpack("<d", read_byte)
-        if 0.5 < retrieved_data[0] < 2:
+        if 0.5 < retrieved_data[0] < 2 and 0.5 < retrieved_data[1] < 2 :
             data_array.append(retrieved_data[0])
             time_array.append(time.time()-start)
             print(retrieved_data[0])
@@ -29,7 +30,7 @@ def read_egram(start_time):
             print("timed out")
             break
 def initiate_egram_sending():
-    SYNC = 0x33
+    SYNC = 0x16
     data = [0]*29
     data[0] = SYNC
     str = "<"

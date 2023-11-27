@@ -7,6 +7,7 @@ import numpy as np
 import serial
 import struct
 import time
+from SerialComm import SerialComm
 
 class EGRAM:
 

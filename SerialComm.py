@@ -11,8 +11,10 @@ class SerialComm:
         self.__endian = "<"  # little endian
         self.__data = data
         self.__parameters = parameters
+        self.__SYNCED = 0x16
         # see endian string format here: https://docs.python.org/3/library/struct.html
         self.send()
+
 
     def send(self):
         SYNC = 0x16
@@ -119,6 +121,8 @@ class SerialComm:
                     d += 1
                     break
         return full_data
+
+
 
 
 
