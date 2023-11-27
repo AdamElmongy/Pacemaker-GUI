@@ -29,8 +29,8 @@ def read_egram(start_time):
             print("timed out")
             break
 def initiate_egram_sending():
-    SYNC = 0x16
-    data = [0]*30
+    SYNC = 0x33
+    data = [0]*29
     data[0] = SYNC
     str = "<"
     for i in range(len(data)):
@@ -42,6 +42,7 @@ def initiate_egram_sending():
     ser.reset_output_buffer()
     ser.write(packed_data)
     ser.close()
+    print("sent")
 
 
 ser = serial.Serial("COM3", 115200, timeout=1)  # open serial port
