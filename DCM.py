@@ -169,6 +169,7 @@ class DCM:
             messagebox.showerror("Error", "No pacemaker detected. Please connect a pacemaker to continue.")
 
     def check_pacemaker_connection(self):
+
         if check_usb_device():
             self.check_pacemaker_connection()
         else:

@@ -135,7 +135,7 @@ class EGRAM:
         fig = Figure(figsize=(6,4))
         ax = fig.add_subplot(111)
         ax.plot(x,y)
-        ax.set_title("Egram Live Graph")
+        ax.set_title("Egram Graph")
         ax.set_xlabel("Time")
         ax.set_ylabel("Pulse")
 
