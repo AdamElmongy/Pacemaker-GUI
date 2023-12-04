@@ -2,35 +2,8 @@ import serial
 import struct
 import time
 import matplotlib.pyplot as plt
-
-def read_egram(start_time):
-    start = start_time
-    success = False
-    ser = serial.Serial("COM3", 115200, timeout=1)  # open serial port
-    print("reading")
-    while success == False:
-        ser.reset_input_buffer()
-        read_byte = ser.read(8)
-        if read_byte == b'':
-            ser.close()
-            print(str(read_byte) + "cannot read")
-            return read_egram(start)
-
-        retrieved_data = struct.unpack("<d", read_byte)
-        if 0.5 < retrieved_data[0] < 2 and 0.5 < retrieved_data[1] < 2 :
-            data_array.append(retrieved_data[0])
-            time_array.append(time.time()-start)
-            print(retrieved_data[0])
-            ser.close()
-            initiate_egram_sending()
-            ser = serial.Serial("COM3", 115200, timeout=1)  # open serial port
-        # else:
-        #     print("data is no good")
-        if time.time()- start > 30:
-            print("timed out")
-            break
 def initiate_egram_sending():
-    SYNC = 0x16
+    SYNC = 0x33
     data = [0]*29
     data[0] = SYNC
     str = "<"
@@ -44,6 +17,32 @@ def initiate_egram_sending():
     ser.write(packed_data)
     ser.close()
     print("sent")
+def read_egram(start_time):
+    start = start_time
+    success = False
+    ser = serial.Serial("COM3", 115200, timeout=1)  # open serial port
+    print("reading")
+    while success == False:
+        ser.reset_input_buffer()
+        read_byte = ser.read(16)
+        if read_byte == b'':
+            ser.close()
+            print(str(read_byte) + "cannot read")
+            return read_egram(start)
+
+        retrieved_data = struct.unpack("<dd", read_byte)
+        if 0.5 < retrieved_data[0] < 2 and 0.5 < retrieved_data[1] < 2 :
+            data_array.append(retrieved_data[1])
+            time_array.append(time.time()-start)
+            print(retrieved_data[1])
+            ser.close()
+            initiate_egram_sending()
+            ser = serial.Serial("COM3", 115200, timeout=1)  # open serial port
+        # else:
+        #     print("data is no good")
+        if time.time()- start > 10:
+            print("timed out")
+            break
 
 
 ser = serial.Serial("COM3", 115200, timeout=1)  # open serial port
